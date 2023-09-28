@@ -14,6 +14,16 @@
     <html lang="en"/>
 </svelte:head>
 
+<body class="main">
+    <h1>NBFN</h1>
+</body>
+
 <style>
-    
+    .main {
+        height: 100%;
+        margin: 0;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-image: linear-gradient(#6c2f88, #4e2f73);
+    }
 </style>
