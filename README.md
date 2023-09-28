@@ -1,2 +1,1 @@
-# NBFN-rewrite
-A rewrite of NBFN using a serverside JS framework.
+A rewrite of [NBFN](https://like4schnitzel.github.io/NBFN/)
