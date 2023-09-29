@@ -14,7 +14,10 @@
 </head>
 
 <body class="main">
-    <h1>NBFN</h1>
+    <div class="title">
+        <img src="icon.png" loading="eager" alt="pixel art magnifying glass wearing nerd glasses">
+        <h1>Name Browser for Nerds</h1>
+    </div>
 </body>
 
 <style>
@@ -24,5 +27,28 @@
         background-repeat: no-repeat;
         background-attachment: fixed;
         background-image: linear-gradient(#6c2f88, #4e2f73);
+    }
+
+    .title {
+        color: rgb(240, 252, 255);
+        padding-top: 25px;
+        padding-bottom: 25px;
+        width: fit-content;
+        height: 48px;
+        margin: auto;
+    }
+
+    .title img {
+        display: inline;
+    }
+
+    .title h1 {
+        font-family: sans-serif;
+        position: relative;
+        display: inline;
+        padding-left: 8px;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        vertical-align: text-bottom;
     }
 </style>
