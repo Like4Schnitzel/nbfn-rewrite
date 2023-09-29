@@ -14,9 +14,9 @@
     <html lang="en"/>
 </svelte:head>
 
-<body class="main">
+<div class="main">
     <h1>NBFN</h1>
-</body>
+</div>
 
 <style>
     .main {
