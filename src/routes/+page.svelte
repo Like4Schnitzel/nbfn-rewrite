@@ -1,5 +1,23 @@
-<script>
+<script lang="ts">
+    import { onMount } from 'svelte';
 
+    let selectedRarity: string = "highest";
+    const countriesInJSON: string[] = [];
+
+    onMount(async () => {
+        const res = await fetch('nam_dict.json');
+        const jsonContents = await res.json();
+        const countries: string[] = jsonContents.Countries;
+
+        for (const country of countries)
+        {
+            countriesInJSON.push(country);
+        }
+    });
+
+    const loadRarities = () => {
+        console.log(selectedRarity);
+    }
 </script>
 
 
@@ -7,8 +25,8 @@
     <title>Name Browser for Nerds</title>
     <meta content="Name Browser for Nerds" property="og:title" />
     <meta content="A Name Browser, for Nerds" property="og:description" />
-    <meta content="https://like4schnitzel.github.io/NBFN/" property="og:url" />
-    <meta content="https://like4schnitzel.github.io/NBFN/imgs/icon.png" property="og:image" />
+    <meta content="https://www.like4schnitzel.at/NBFN/" property="og:url" />
+    <meta content="https://www.like4schnitzel.at/NBFN/imgs/icon.png" property="og:image" />
     <meta content="#F9AEC4" data-react-helmet="true" name="theme-color" />
     <link rel="icon" href="icon.png"/>
 </head>
@@ -93,6 +111,37 @@
                     </h4>
                 </div>
             </details>
+        </div>
+        <div class="tableColumn">
+            <table class="table" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>
+                        <table cellspacing="0" cellpadding="1">
+                            <tr>
+                                <th id="nameHeader">Name</th>
+                                <th id="genderHeader">Gender</th>
+                                <th id="cvbHeader">CVBs</th>
+                                <th id="raritySelector">
+                                    <div id="rarityLoading" class="hidden">
+                                        Loading...
+                                    </div>
+                                    <div id="raritySelection">
+                                        Rarity in
+                                        <select bind:value={selectedRarity} on:change={loadRarities} id="countrySelector">
+                                            <option value="highest" selected>highest</option>
+                                            {#each countriesInJSON as country}
+                                                <option value={country}>{country}</option>
+                                            {:else}
+                                                <option>this isn't supposed to happen</option>
+                                            {/each}
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </body>
