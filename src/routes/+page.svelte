@@ -1,25 +1,134 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
+    async function maxRarity(rarities: any) {
+        let max = "~0%";
+        let maxNum = 0;
+        for (const country in rarities) {
+            let rarityNum = parseFloat(rarities[country].substring(1, rarities[country].length-1));
+
+            if (rarityNum > maxNum) {
+                max = rarities[country];
+            }
+        }
+
+        return max;
+    }
+
+    async function loadTable()
+    {
+        nameTable.innerHTML = "";
+        loadingMessage.setAttribute("class", "");
+
+        const names = jsonContents.Names
+        for (const name in names) {
+            const nameInfo = names[name];
+            const row = [];
+
+            let nameTd = document.createElement('td');
+            nameTd.setAttribute("class", "name nameColumn");
+            nameTd.innerHTML = name;
+            row.push(nameTd);
+
+            let genderTd = document.createElement('td');
+            genderTd.setAttribute("class", "genderColumn");
+            genderTd.innerHTML = nameInfo["Gender"];
+            row.push(genderTd);
+
+            let cvbTd = document.createElement('td');
+            cvbTd.setAttribute("class", "cvbColumn");
+            cvbTd.innerHTML = nameInfo["CVBs"];
+            row.push(cvbTd);
+
+            let rarityTd = document.createElement('td');
+            rarityTd.setAttribute("class", "rarity rarityColumn");
+            if (selectedRarity === "highest") {
+                rarityTd.innerHTML += maxRarity(nameInfo["Rarities"]);
+            } else {
+                let tempRarity = nameInfo["Rarities"][selectedRarity];
+                if (tempRarity === undefined) {
+                    tempRarity = '?';
+                }
+
+                rarityTd.innerHTML = tempRarity;
+            }
+
+            let rarityInfoButton = document.createElement('div');
+            rarityInfoButton.setAttribute("class", "rarityInfoBtn");
+            rarityTd.appendChild(rarityInfoButton);
+
+            let infoButtonImage = document.createElement('img');
+            infoButtonImage.setAttribute("src", "info.png");
+            rarityInfoButton.appendChild(infoButtonImage);
+
+            let allRarities = document.createElement('span');
+            for (const country in nameInfo["Rarities"]) {
+                allRarities.innerHTML += country + ": " + nameInfo["Rarities"][country] + "<br>";
+            }
+            rarityInfoButton.appendChild(allRarities);
+            row.push(rarityTd);
+
+            allRows.push(row);
+        }
+
+        loadedRows = 0;
+        alternatingColor = "1";
+        for (let i = 0; i < allRows.length && i < startRows; i++) {
+            addRow();
+        }
+        loadingMessage.setAttribute("class", "hidden");
+    }
+
+    async function addRow() {
+        let row = allRows[loadedRows];
+
+        let colorClass;
+        if (alternatingColor === "1") {
+            colorClass = "tableRow1";
+            alternatingColor = "2"
+        } else {
+            colorClass = "tableRow2";
+            alternatingColor = "1";
+        }
+        for (const td of row) {
+            td.classList.add(colorClass);
+            nameTable.appendChild(td);
+        }
+
+        loadedRows += 1;
+    }
+
     let selectedRarity: string = "highest";
-    const countriesInJSON: string[] = [];
+    let countriesInJSON: string[] = [];
+    let jsonContents: { Names: any; Countries: string[]; };
+    let nameTable: HTMLElement;
+    let allRows: any[] = [];
+    let loadingMessage: HTMLElement;
+    let alternatingColor: string;
+    let loadedRows: number;
+    const startRows = 50;
 
     onMount(async () => {
         const res = await fetch('nam_dict.json');
-        const jsonContents = await res.json();
+        jsonContents = await res.json();
         const countries: string[] = jsonContents.Countries;
 
-        for (const country of countries)
-        {
+        for (const country of countries) {
             countriesInJSON.push(country);
         }
+        countriesInJSON = countriesInJSON;
+
+        loadTable();
     });
 
     const loadRarities = () => {
         console.log(selectedRarity);
     }
-</script>
 
+    const loadRows = () => {
+        console.log("Loading more rows.");
+    }
+</script>
 
 <head>
     <title>Name Browser for Nerds</title>
@@ -118,7 +227,7 @@
                     <td>
                         <table cellspacing="0" cellpadding="1">
                             <tr>
-                                <th id="nameHeader">Name</th>
+                                <th id="name">Name</th>
                                 <th id="genderHeader">Gender</th>
                                 <th id="cvbHeader">CVBs</th>
                                 <th id="raritySelector">
@@ -139,6 +248,16 @@
                                 </th>
                             </tr>
                         </table>
+                    </td>
+                </tr>
+                <tr id="jsonDivTr">
+                    <td>
+                        <div id="jsonDiv" on:scroll={loadRows}>
+                            <p id="loadingMessage" bind:this={loadingMessage}>Loading data...<br>(make sure javascript is enabled)</p>
+                            <table id="jsonContent" cellspacing="0" cellpadding="1" bind:this={nameTable}>
+                                <!-- This will be filled up by the script -->
+                            </table>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -257,5 +376,37 @@
 
     summary::-webkit-details-marker {
         display: none;
+    }
+
+    #name {
+        width: 200px;
+        text-align: left;
+        border-radius: 15px 0px 0px 0px;
+    }
+
+    #genderHeader {
+        width: max-content;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    #cvbHeader {
+        width: max-content;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    #countrySelector {
+        position: relative;
+        width: max-content;
+        border-radius: 0px 15px 0px 0px;
+    }
+
+    #rarityLoading {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 3px;
+        margin: auto;
     }
 </style>
