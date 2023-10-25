@@ -32,13 +32,11 @@
 
         for (let rarityInfo of rarites) {
             if (rarityInfo.Country === selectedRarity) {
-                if (rarityInfo.Rarity === undefined) {
-                    return "?";
-                }
-
                 return rarityInfo.Rarity;
             }
         }
+
+        return "?"
     }
 
     async function loadTable()
@@ -86,6 +84,7 @@
     let loadedRows: NameInfo[] = [];
     const startRows = 50;
     let scrollableTable: HTMLDivElement;
+    let filterSelector: HTMLSelectElement;
 
     onMount(async () => {
         const res = await fetch('nam_dict.json');
@@ -101,6 +100,7 @@
     });
 
     const loadRarities = () => {
+        loadedRows = loadedRows;
     }
 
     const loadRows = () => {
@@ -109,6 +109,10 @@
         for (let i = 0; i < allRows.length && i < toAdd; i++) {
             addRow();
         }
+    }
+
+    const addFilter = () => {
+        filterSelector.value = "std";
     }
 </script>
 
@@ -251,7 +255,25 @@
             </div>
         </div>
         <div class="filtersColumn">
-            <p>filler text</p>
+            <div class="filters">
+
+            </div>
+            <select class="addFilter" bind:this={filterSelector} on:change={addFilter}>
+                <option value="std" selected>Add Filter</option>
+                <optgroup label="Filters">
+                    <option value="nameContentFilter">Name Content</option>
+                    <option value="nameLengthFilter">Name Length</option>
+                    <option value="genderFilter">Gender</option>
+                    <option value="CVBFilter">CVB Count</option>
+                    <option value="rarityFilter">Rarity</option>
+                </optgroup>
+                <optgroup label="Sorting">
+                    <option value="nameSort">Name</option>
+                    <option value="cvbSort">CVB Count</option>
+                    <option value="raritySort">Rarity</option>
+                </optgroup>
+            </select>
+            <button class="applyFilters" on:click={loadTable}>Apply Filters</button>
         </div>
     </div>
 </body>
@@ -318,12 +340,8 @@
         justify-content: space-evenly;
     }
 
-    .filtersColumn {
-        flex-basis: 30%;
-    }
-
     .tableColumn {
-        flex-basis: 40%;
+        flex-basis: 35%;
     }
 
     .about {
@@ -529,5 +547,42 @@
         border-radius: 7px;
         border: 1px solid black;
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .filtersColumn {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 30%;
+    }
+
+    .addFilter {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 5%;
+        width: fit-content;
+        padding: 2%;
+    }
+
+    .applyFilters {
+        margin-left: auto;
+        margin-right: auto;
+        width: fit-content;
+        padding-left: 6%;
+        padding-right: 6%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+        border-radius: 5px;
+        background-color: rgb(244, 135, 204);
+        border: solid 1px black;
+        cursor: pointer;
+    }
+
+    .applyFilters:hover {
+        background-color: rgb(243, 118, 197);
+    }
+
+    .applyFilters:active {
+        background-color: rgb(237, 96, 185);
     }
 </style>
