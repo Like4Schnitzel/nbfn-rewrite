@@ -1,111 +1,85 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
-    async function maxRarity(rarities: any) {
+    interface RarityInfo {
+        "Country": string,
+        "Rarity": string
+    }
+
+    interface NameInfo {
+        "Name": string,
+        "Gender": "M" | "F" | "1M" | "1F" | "?M" | "?F" | "?",
+        "CVBs": number,
+        "Rarities": RarityInfo[]
+    }
+
+    function maxRarity(rarities: RarityInfo[]) {
         let max = "~0%";
         let maxNum = 0;
-        for (const country in rarities) {
-            let rarityNum = parseFloat(rarities[country].substring(1, rarities[country].length-1));
+        for (const rarityInfo of rarities) {
+            let rarityNum = parseFloat(rarityInfo.Rarity.substring(1, rarityInfo.Rarity.length-1));
 
             if (rarityNum > maxNum) {
-                max = rarities[country];
+                max = rarityInfo.Rarity;
             }
         }
 
         return max;
     }
 
+    function getSelectedRarityNum(rarites: RarityInfo[]) {
+        if (selectedRarity === "highest") return maxRarity(rarites);
+
+        for (let rarityInfo of rarites) {
+            if (rarityInfo.Country === selectedRarity) {
+                return rarityInfo.Rarity;
+            }
+        }
+    }
+
     async function loadTable()
     {
-        nameTable.innerHTML = "";
-        loadingMessage.setAttribute("class", "");
+        allRows = [];
+        loadingMessage.classList.remove("hidden");
 
         const names = jsonContents.Names
         for (const name in names) {
-            const nameInfo = names[name];
-            const row = [];
-
-            let nameTd = document.createElement('td');
-            nameTd.setAttribute("class", "name nameColumn");
-            nameTd.innerHTML = name;
-            row.push(nameTd);
-
-            let genderTd = document.createElement('td');
-            genderTd.setAttribute("class", "genderColumn");
-            genderTd.innerHTML = nameInfo["Gender"];
-            row.push(genderTd);
-
-            let cvbTd = document.createElement('td');
-            cvbTd.setAttribute("class", "cvbColumn");
-            cvbTd.innerHTML = nameInfo["CVBs"];
-            row.push(cvbTd);
-
-            let rarityTd = document.createElement('td');
-            rarityTd.setAttribute("class", "rarity rarityColumn");
-            if (selectedRarity === "highest") {
-                rarityTd.innerHTML += maxRarity(nameInfo["Rarities"]);
-            } else {
-                let tempRarity = nameInfo["Rarities"][selectedRarity];
-                if (tempRarity === undefined) {
-                    tempRarity = '?';
-                }
-
-                rarityTd.innerHTML = tempRarity;
+            let row: NameInfo = {
+                Name: name,
+                Gender: names[name]["Gender"],
+                CVBs: names[name]["CVBs"],
+                Rarities: []
+            };
+            for (const rarity in names[name]["Rarities"]) {
+                row.Rarities.push({
+                    "Country": rarity,
+                    "Rarity": names[name]["Rarities"][rarity]
+                });
             }
-
-            let rarityInfoButton = document.createElement('div');
-            rarityInfoButton.setAttribute("class", "rarityInfoBtn");
-            rarityTd.appendChild(rarityInfoButton);
-
-            let infoButtonImage = document.createElement('img');
-            infoButtonImage.setAttribute("src", "info.png");
-            rarityInfoButton.appendChild(infoButtonImage);
-
-            let allRarities = document.createElement('span');
-            for (const country in nameInfo["Rarities"]) {
-                allRarities.innerHTML += country + ": " + nameInfo["Rarities"][country] + "<br>";
-            }
-            rarityInfoButton.appendChild(allRarities);
-            row.push(rarityTd);
 
             allRows.push(row);
         }
 
-        loadedRows = 0;
-        alternatingColor = "1";
+        loadedRows = [];
+        alternatingColor = 1;
         for (let i = 0; i < allRows.length && i < startRows; i++) {
             addRow();
         }
-        loadingMessage.setAttribute("class", "hidden");
+        loadingMessage.classList.add("hidden");
     }
 
     async function addRow() {
-        let row = allRows[loadedRows];
-
-        let colorClass;
-        if (alternatingColor === "1") {
-            colorClass = "tableRow1";
-            alternatingColor = "2"
-        } else {
-            colorClass = "tableRow2";
-            alternatingColor = "1";
-        }
-        for (const td of row) {
-            td.classList.add(colorClass);
-            nameTable.appendChild(td);
-        }
-
-        loadedRows += 1;
+        loadedRows.push(allRows[loadedRows.length]);
+        loadedRows = loadedRows;
     }
 
     let selectedRarity: string = "highest";
     let countriesInJSON: string[] = [];
     let jsonContents: { Names: any; Countries: string[]; };
-    let nameTable: HTMLElement;
     let allRows: any[] = [];
     let loadingMessage: HTMLElement;
-    let alternatingColor: string;
-    let loadedRows: number;
+    let alternatingColor: number;
+    let loadedRows: NameInfo[] = [];
     const startRows = 50;
 
     onMount(async () => {
@@ -122,7 +96,7 @@
     });
 
     const loadRarities = () => {
-        console.log(selectedRarity);
+        console.log(getSelectedRarityNum);
     }
 
     const loadRows = () => {
@@ -142,8 +116,8 @@
 
 <body class="main">
     <div class="title">
-        <img src="icon.png" loading="eager" alt="pixel art magnifying glass wearing nerd glasses">
-        <h1>Name Browser for Nerds</h1>
+        <img class="titleIcon" src="icon.png" loading="eager" alt="pixel art magnifying glass wearing nerd glasses">
+        <h1 class="titleText">Name Browser for Nerds</h1>
     </div>
     <div class="tableSpace">
         <div class="about">
@@ -162,7 +136,7 @@
                     </h4>
                     <h2>The plus symbol</h2>
                     <h4>
-                        Within some names you will see the character '+'. This symbolizes a '-', ' ' or an empty string, 
+                        Within some names you will see the character '+'. This symbolizes a '-', ' ' or an empty string,
                         though the last option only applies to Arabic, Chinese and Korean names.
                         Thus, "Jun+Wei" represents the names "Jun-Wei", "Jun Wei" and "Junwei"
                     </h4>
@@ -222,45 +196,56 @@
             </details>
         </div>
         <div class="tableColumn">
-            <table class="table" cellspacing="0" cellpadding="0">
-                <tr>
-                    <td>
-                        <table cellspacing="0" cellpadding="1">
-                            <tr>
-                                <th id="name">Name</th>
-                                <th id="genderHeader">Gender</th>
-                                <th id="cvbHeader">CVBs</th>
-                                <th id="raritySelector">
-                                    <div id="rarityLoading" class="hidden">
-                                        Loading...
-                                    </div>
-                                    <div id="raritySelection">
-                                        Rarity in
-                                        <select bind:value={selectedRarity} on:change={loadRarities} id="countrySelector">
-                                            <option value="highest" selected>highest</option>
-                                            {#each countriesInJSON as country}
-                                                <option value={country}>{country}</option>
-                                            {:else}
-                                                <option>this isn't supposed to happen</option>
-                                            {/each}
-                                        </select>
-                                    </div>
-                                </th>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr id="jsonDivTr">
-                    <td>
-                        <div id="jsonDiv" on:scroll={loadRows}>
-                            <p id="loadingMessage" bind:this={loadingMessage}>Loading data...<br>(make sure javascript is enabled)</p>
-                            <table id="jsonContent" cellspacing="0" cellpadding="1" bind:this={nameTable}>
-                                <!-- This will be filled up by the script -->
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <div class="table">
+                <div class="headers">
+                    <tr>
+                        <th class="nameColumn nameHeader">Name</th>
+                        <th class="genderColumn">Gender</th>
+                        <th class="cvbColumn">CVBs</th>
+                        <th class="rarityColumn rarityHeader">
+                            <div class="hidden rarityLoading">
+                                Loading...
+                            </div>
+                            <div id="raritySelection">
+                                Rarity in
+                                <select bind:value={selectedRarity} on:change={loadRarities} class="countrySelector">
+                                    <option value="highest" selected>highest</option>
+                                    {#each countriesInJSON as country}
+                                        <option value={country}>{country}</option>
+                                    {:else}
+                                        <option>this isn't supposed to happen</option>
+                                    {/each}
+                                </select>
+                            </div>
+                        </th>
+                    </tr>
+                </div>
+                <div class="jsonDiv" on:scroll={loadRows}>
+                    <p class="hidden loadingMessage" bind:this={loadingMessage}>Loading data...<br>(make sure javascript is enabled)</p>
+                    {#each loadedRows as row}
+                        <tr class="tableRow">
+                            <td class="nameColumn">{row.Name}</td>
+                            <td class="genderColumn">{row.Gender}</td>
+                            <td class="cvbColumn">{row.CVBs}</td>
+                            <td class="rarityColumn">
+                                {getSelectedRarityNum(row.Rarities)}
+                                <div class="rarityInfoBtn">
+                                    <!-- svelte-ignore a11y-missing-attribute -->
+                                    <img src="info.png">
+                                    <span>
+                                        {#each row.Rarities as countryRarityPair}
+                                            <p>{countryRarityPair.Country}: {countryRarityPair.Rarity}</p>
+                                        {/each}
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    {/each}
+                </div>
+            </div>
+        </div>
+        <div class="filtersColumn">
+            <p>filler text</p>
         </div>
     </div>
 </body>
@@ -326,6 +311,14 @@
         justify-content: space-evenly;
     }
 
+    .filtersColumn {
+        flex-basis: 30%;
+    }
+
+    .tableColumn {
+        flex-basis: 40%;
+    }
+
     .about {
         flex-basis: 30%;
         height: fit-content;
@@ -378,35 +371,169 @@
         display: none;
     }
 
-    #name {
-        width: 200px;
+    .nameHeader {
         text-align: left;
         border-radius: 15px 0px 0px 0px;
     }
 
-    #genderHeader {
-        width: max-content;
-        padding-left: 3px;
-        padding-right: 3px;
-    }
-
-    #cvbHeader {
-        width: max-content;
-        padding-left: 3px;
-        padding-right: 3px;
-    }
-
-    #countrySelector {
+    .rarityHeader {
         position: relative;
-        width: max-content;
         border-radius: 0px 15px 0px 0px;
     }
 
-    #rarityLoading {
+    .rarityLoading {
         position: absolute;
         left: 0;
         right: 0;
         bottom: 3px;
         margin: auto;
+    }
+
+    .rarityInfoBtn img {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        padding-left: 4px;
+    }
+
+    .rarityInfoBtn span {
+        width: max-content;
+        top: 24px;
+        left: -95px;
+    }
+
+    .rarityInfoBtn:hover span {
+        display: block;
+        text-align: center;
+    }
+
+    .tableRow td.rarityColumn {
+        border-right: 0px;
+    }
+
+    .tableRow td.nameColumn {
+        border-left: 0px;
+    }
+
+    .tableSpace {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .table {
+        table-layout: fixed;
+        background-color: #cb63d9;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 15px;
+    }
+
+    .tableRow {
+        background-color: #e1a5e9;
+    }
+
+    .tableRow:nth-child(2n) {
+        background-color: #d785e1;
+    }
+
+    .countrySelector {
+        width: 52%;
+    }
+
+    .jsonDiv {
+        height: 780px;
+        overflow-y: auto;
+        overflow: overlay;
+        border-radius: 0px 0px 15px 15px;
+        border: solid 1px rgb(141, 58, 182);
+    }
+
+    .loadingMessage {
+        position: relative;
+        top: 300px;
+        height: 0px;
+        margin-top: auto;
+        margin-bottom: auto;
+        text-align: center;
+    }
+
+    .title {
+        color: rgb(240, 252, 255);
+        padding-top: 25px;
+        padding-bottom: 25px;
+        height: 48px;
+        margin: auto;
+    }
+
+    .titleIcon {
+        display: inline;
+    }
+
+    .titleText {
+        font-family: sans-serif;
+        position: relative;
+        display: inline;
+        padding-left: 8px;
+        margin-bottom: 0px;
+        margin-top: 0px;
+        vertical-align: text-bottom;
+    }
+
+    .hidden {
+        visibility: hidden;
+    }
+
+    .nameColumn {
+        border-left: 0px;
+        text-align: left;
+    }
+
+    .genderColumn {
+        text-align: center;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .cvbColumn {
+        text-align: center;
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+
+    .rarityColumn {
+        border-right: 0px;
+        text-align: center;
+        position: relative;
+    }
+
+    th {
+        border-right: solid 1px black;
+        border-left: solid 1px black;
+        border-top: solid 1px black;
+    }
+
+    tr {
+        display: grid;
+        grid-template-columns: 35% 15% 15%  auto;
+        margin: 0 auto;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    td {
+        border: solid 1px rgb(141, 58, 182);
+    }
+
+    span {
+        z-index: 9;
+        display: none;
+        position: absolute;
+        background-color: antiquewhite;
+        border-radius: 7px;
+        border: 1px solid black;
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 </style>
