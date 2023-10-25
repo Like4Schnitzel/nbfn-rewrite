@@ -32,6 +32,10 @@
 
         for (let rarityInfo of rarites) {
             if (rarityInfo.Country === selectedRarity) {
+                if (rarityInfo.Rarity === undefined) {
+                    return "?";
+                }
+
                 return rarityInfo.Rarity;
             }
         }
@@ -81,6 +85,7 @@
     let alternatingColor: number;
     let loadedRows: NameInfo[] = [];
     const startRows = 50;
+    let scrollableTable: HTMLDivElement;
 
     onMount(async () => {
         const res = await fetch('nam_dict.json');
@@ -96,11 +101,14 @@
     });
 
     const loadRarities = () => {
-        console.log(getSelectedRarityNum);
     }
 
     const loadRows = () => {
-        console.log("Loading more rows.");
+        const toAdd = scrollableTable.scrollTop / 20 - (loadedRows.length - startRows);
+
+        for (let i = 0; i < allRows.length && i < toAdd; i++) {
+            addRow();
+        }
     }
 </script>
 
@@ -218,7 +226,7 @@
                         </th>
                     </tr>
                 </div>
-                <div class="jsonDiv" on:scroll={loadRows}>
+                <div class="jsonDiv" on:scroll={loadRows} bind:this={scrollableTable}>
                     <p class="hidden loadingMessage" bind:this={loadingMessage}>Loading data...<br>(make sure javascript is enabled)</p>
                     {#each loadedRows as row}
                         <tr class="tableRow">
