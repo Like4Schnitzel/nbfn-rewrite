@@ -580,6 +580,33 @@
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
+    .delBtn {
+        width: 16px;
+        height: 16px;
+    }
+
+    .btns {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        top: 0;
+        right: 0;
+        padding-right: 2px;
+    }
+
+    .filter {
+        position: relative;
+        width: 100%;
+        background-color: aliceblue;
+        border: 1px solid black;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 5px;
+        margin-bottom: 5%;
+        text-align: center;
+    }
+
     .filtersColumn {
         display: flex;
         flex-direction: column;
