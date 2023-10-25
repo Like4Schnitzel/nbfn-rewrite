@@ -299,6 +299,10 @@
                                         <a href="https://regexone.com/">https://regexone.com/</a>
                                     </span>
                                 </div>
+                                <div class="filterContent">
+                                    <p>Name Filter:</p>
+                                    <input class="nameFilterInput" type="text">
+                                </div>
                             {/if}
                     </div>
                 {/each}
@@ -592,6 +596,19 @@
         border-radius: 7px;
         border: 1px solid black;
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .nameFilterInput {
+        width: max-content;
+    }
+
+    .filterContent {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        justify-content: center;
     }
 
     .filterInfoBtn:hover span {
