@@ -212,8 +212,6 @@
                                     <option value="highest" selected>highest</option>
                                     {#each countriesInJSON as country}
                                         <option value={country}>{country}</option>
-                                    {:else}
-                                        <option>this isn't supposed to happen</option>
                                     {/each}
                                 </select>
                             </div>
@@ -253,6 +251,7 @@
 <style>
     :root {
         --about-text-color: ivory;
+        --table-border-radius: 12px;
     }
 
     @keyframes invisiblyGrowFontSize {
@@ -373,12 +372,12 @@
 
     .nameHeader {
         text-align: left;
-        border-radius: 15px 0px 0px 0px;
+        border-radius: var(--table-border-radius) 0px 0px 0px;
     }
 
     .rarityHeader {
         position: relative;
-        border-radius: 0px 15px 0px 0px;
+        border-radius: 0px var(--table-border-radius) 0px 0px;
     }
 
     .rarityLoading {
@@ -411,14 +410,6 @@
         text-align: center;
     }
 
-    .tableRow td.rarityColumn {
-        border-right: 0px;
-    }
-
-    .tableRow td.nameColumn {
-        border-left: 0px;
-    }
-
     .tableSpace {
         display: flex;
         justify-content: space-evenly;
@@ -429,7 +420,7 @@
         background-color: #cb63d9;
         margin-left: auto;
         margin-right: auto;
-        border-radius: 15px;
+        border-radius: var(--table-border-radius);
     }
 
     .tableRow {
@@ -448,8 +439,9 @@
         height: 780px;
         overflow-y: auto;
         overflow: overlay;
-        border-radius: 0px 0px 15px 15px;
+        border-radius: 0px 0px var(--table-border-radius) var(--table-border-radius);
         border: solid 1px rgb(141, 58, 182);
+        width: 100%;
     }
 
     .loadingMessage {
@@ -488,16 +480,11 @@
     }
 
     .nameColumn {
-        border-left: 0px;
         text-align: left;
+        padding-left: 5px;
     }
 
-    .genderColumn {
-        text-align: center;
-        padding-left: 3px;
-        padding-right: 3px;
-    }
-
+    .genderColumn,
     .cvbColumn {
         text-align: center;
         padding-left: 3px;
@@ -505,7 +492,6 @@
     }
 
     .rarityColumn {
-        border-right: 0px;
         text-align: center;
         position: relative;
     }
