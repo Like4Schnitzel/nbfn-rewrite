@@ -281,11 +281,25 @@
                 {#each filtersValuesList as filter, i}
                     <div class="filter" bind:this={filtersElementsList[i]}>
                         <div class="btns">
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+                            <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
                             <img class="delBtn" src="trashcan.png" 
                                 on:mouseover={()=>{trashcanHover(i)}}
                                 on:mouseout={()=>{trashcanHoverEnd(i)}}
                                 title="Remove Filter" on:click={()=>{deleteFilter(i)}} alt="trashcan">
                         </div>
+                            {#if filter === "nameContentFilter"}
+                                <div class="filterInfoBtn">
+                                    <img src="info.png" alt="blue circle with white i character">
+                                    <span>
+                                        This will only include entries where the name matches the
+                                        provided regular expression. If you do not know how to use
+                                        regular expressions, I recommend this short & playful tutorial:
+                                        <a href="https://regexone.com/">https://regexone.com/</a>
+                                    </span>
+                                </div>
+                            {/if}
                     </div>
                 {/each}
             </div>
@@ -578,6 +592,25 @@
         border-radius: 7px;
         border: 1px solid black;
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .filterInfoBtn:hover span {
+        display: block;
+    }
+
+    .filterInfoBtn span {
+        width: 80%;
+        top: 18px;
+        line-height: normal;
+    }
+
+    .filterInfoBtn img {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: 0px;
+        left: 0px;
+        padding: 2px;
     }
 
     .delBtn {
