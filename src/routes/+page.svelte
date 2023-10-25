@@ -85,6 +85,8 @@
     const startRows = 50;
     let scrollableTable: HTMLDivElement;
     let filterSelector: HTMLSelectElement;
+    let filtersValuesList: string[] = [];
+    let filtersElementsList: HTMLDivElement[] = [];
 
     onMount(async () => {
         const res = await fetch('nam_dict.json');
@@ -112,7 +114,27 @@
     }
 
     const addFilter = () => {
+        filtersValuesList.push(filterSelector.value);
         filterSelector.value = "std";
+        filtersValuesList = filtersValuesList;
+    }
+
+    const deleteFilter = (i: number) => {
+        filtersElementsList.splice(i, 1);
+        filtersValuesList.splice(i, 1);
+
+        filtersElementsList = filtersElementsList;
+        filtersValuesList = filtersValuesList;
+    }
+
+    const trashcanHover = (i: number) => {
+        const trashcanElement = filtersElementsList[i].getElementsByClassName("delBtn")[0];
+        trashcanElement.setAttribute("src", "trashcan_red.png");
+    }
+
+    const trashcanHoverEnd = (i: number) => {
+        const trashcanElement = filtersElementsList[i].getElementsByClassName("delBtn")[0];
+        trashcanElement.setAttribute("src", "trashcan.png");
     }
 </script>
 
@@ -256,7 +278,16 @@
         </div>
         <div class="filtersColumn">
             <div class="filters">
-
+                {#each filtersValuesList as filter, i}
+                    <div class="filter" bind:this={filtersElementsList[i]}>
+                        <div class="btns">
+                            <img class="delBtn" src="trashcan.png" 
+                                on:mouseover={()=>{trashcanHover(i)}}
+                                on:mouseout={()=>{trashcanHoverEnd(i)}}
+                                title="Remove Filter" on:click={()=>{deleteFilter(i)}} alt="trashcan">
+                        </div>
+                    </div>
+                {/each}
             </div>
             <select class="addFilter" bind:this={filterSelector} on:change={addFilter}>
                 <option value="std" selected>Add Filter</option>
