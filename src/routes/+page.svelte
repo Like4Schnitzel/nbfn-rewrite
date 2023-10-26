@@ -13,6 +13,11 @@
         "Rarities": RarityInfo[]
     }
 
+    interface FilterContent {
+        "Type": string,
+        "InputValues": string[]
+    }
+
     function maxRarity(rarities: RarityInfo[]) {
         let max = "~0%";
         let maxNum = 0;
@@ -85,8 +90,8 @@
     const startRows = 50;
     let scrollableTable: HTMLDivElement;
     let filterSelector: HTMLSelectElement;
-    let filtersValuesList: string[] = [];
     let filtersElementsList: HTMLDivElement[] = [];
+    let filtersInputs: FilterContent[] = [];
 
     onMount(async () => {
         const res = await fetch('nam_dict.json');
@@ -114,20 +119,25 @@
     }
 
     const addFilter = () => {
-        filtersValuesList.push(filterSelector.value);
-        filterSelector.value = "std";
-        filtersValuesList = filtersValuesList;
+        filtersInputs.push({
+            "Type": filterSelector.value,
+            "InputValues": []
+        });
+
+        filterSelector.value = "std"; 
+        filtersInputs = filtersInputs;
     }
 
     const deleteFilter = (i: number) => {
         filtersElementsList.splice(i, 1);
-        filtersValuesList.splice(i, 1);
+        filtersInputs.splice(i, 1);
 
         filtersElementsList = filtersElementsList;
-        filtersValuesList = filtersValuesList;
+        filtersInputs = filtersInputs;
     }
 
     const trashcanHover = (i: number) => {
+        console.log(filtersInputs);
         const trashcanElement = filtersElementsList[i].getElementsByClassName("delBtn")[0];
         trashcanElement.setAttribute("src", "trashcan_red.png");
     }
@@ -278,7 +288,7 @@
         </div>
         <div class="filtersColumn">
             <div class="filters">
-                {#each filtersValuesList as filter, i}
+                {#each filtersInputs as filter, i}
                     <div class="filter" bind:this={filtersElementsList[i]}>
                         <div class="btns">
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -289,7 +299,7 @@
                                 on:mouseout={()=>{trashcanHoverEnd(i)}}
                                 title="Remove Filter" on:click={()=>{deleteFilter(i)}} alt="trashcan">
                         </div>
-                            {#if filter === "nameContentFilter"}
+                            {#if filter.Type === "nameContentFilter"}
                                 <div class="filterInfoBtn">
                                     <img src="info.png" alt="blue circle with white i character">
                                     <span>
@@ -301,7 +311,7 @@
                                 </div>
                                 <div class="filterContent">
                                     <p>Name Filter:</p>
-                                    <input class="nameFilterInput" type="text">
+                                    <input class="nameFilterInput" type="text" bind:value={filter.InputValues[0]}>
                                 </div>
                             {/if}
                     </div>
