@@ -1,5 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
 
     interface RarityInfo {
         "Country": string,
@@ -92,6 +94,7 @@
     let filterSelector: HTMLSelectElement;
     let filtersElementsList: HTMLDivElement[] = [];
     let filtersInputs: FilterContent[] = [];
+    const searchParams = new URLSearchParams();
 
     onMount(async () => {
         const res = await fetch('nam_dict.json');
@@ -124,8 +127,9 @@
             "InputValues": []
         });
 
-        filterSelector.value = "std"; 
+        filterSelector.value = "std";
         filtersInputs = filtersInputs;
+        updateSearchParams();
     }
 
     const deleteFilter = (i: number) => {
@@ -134,10 +138,10 @@
 
         filtersElementsList = filtersElementsList;
         filtersInputs = filtersInputs;
+        updateSearchParams();
     }
 
     const trashcanHover = (i: number) => {
-        console.log(filtersInputs);
         const trashcanElement = filtersElementsList[i].getElementsByClassName("delBtn")[0];
         trashcanElement.setAttribute("src", "trashcan_red.png");
     }
@@ -146,6 +150,11 @@
         const trashcanElement = filtersElementsList[i].getElementsByClassName("delBtn")[0];
         trashcanElement.setAttribute("src", "trashcan.png");
     }
+
+    const updateSearchParams = () => {
+        searchParams.set("filters", JSON.stringify(filtersInputs));
+        goto(`?${searchParams.toString()}`);
+    }
 </script>
 
 <head>
@@ -153,7 +162,7 @@
     <meta content="Name Browser for Nerds" property="og:title" />
     <meta content="A Name Browser, for Nerds" property="og:description" />
     <meta content="https://www.like4schnitzel.at/NBFN/" property="og:url" />
-    <meta content="https://www.like4schnitzel.at/NBFN/imgs/icon.png" property="og:image" />
+    <meta content="https://www.like4schnitzel.at/NBFN/static/icon.png" property="og:image" />
     <meta content="#F9AEC4" data-react-helmet="true" name="theme-color" />
     <link rel="icon" href="icon.png"/>
 </head>
@@ -311,7 +320,7 @@
                                 </div>
                                 <div class="filterContent">
                                     <p>Name Filter:</p>
-                                    <input class="nameFilterInput" type="text" bind:value={filter.InputValues[0]}>
+                                    <input class="nameFilterInput" type="text" bind:value={filter.InputValues[0]} on:change={updateSearchParams}>
                                 </div>
                             {/if}
                     </div>
