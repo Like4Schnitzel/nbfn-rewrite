@@ -119,6 +119,7 @@
         }
         countriesInJSON = countriesInJSON;
 
+        filtersInputs = JSON.parse($page.url.searchParams.get('filters') || "[]");
         loadTable();
     });
 
@@ -147,6 +148,7 @@
 
     const deleteFilter = (i: number) => {
         filtersInputs.splice(i, 1);
+        loadTable();
 
         filtersInputs = filtersInputs;
         updateSearchParams();
