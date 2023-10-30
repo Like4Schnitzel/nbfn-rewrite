@@ -49,7 +49,6 @@
     function loadTable()
     {
         allRows = [];
-        loadingMessage.classList.remove("hidden");
 
         const names = jsonContents.Names
         for (const name in names) {
@@ -66,7 +65,9 @@
                 });
             }
 
-            allRows.push(row);
+            if (checkFilters(row)) {
+                allRows.push(row);
+            }
         }
 
         loadedRows = [];
@@ -74,7 +75,6 @@
         for (let i = 0; i < allRows.length && i < startRows; i++) {
             addRow();
         }
-        loadingMessage.classList.add("hidden");
     }
 
     function addRow() {
@@ -82,11 +82,25 @@
         loadedRows = loadedRows;
     }
 
+    function checkFilters(name: NameInfo) {
+        if (filtersInputs.length === 0) return true;
+
+        let passesCheck: boolean = false;
+
+        for (const filter of filtersInputs) {
+            switch (filter.Type) {
+                case "nameContentFilter":
+                    passesCheck = passesCheck || new RegExp(filter.InputValues[0]).test(name.Name);
+            }
+        }
+
+        return passesCheck;
+    }
+
     let selectedRarity: string = "highest";
     let countriesInJSON: string[] = [];
     let jsonContents: { Names: any; Countries: string[]; };
     let allRows: any[] = [];
-    let loadingMessage: HTMLElement;
     let alternatingColor: number;
     let loadedRows: NameInfo[] = [];
     const startRows = 50;
@@ -259,7 +273,6 @@
                     </tr>
                 </div>
                 <div class="jsonDiv" on:scroll={loadRows} bind:this={scrollableTable}>
-                    <p class="hidden loadingMessage" bind:this={loadingMessage}>Loading data...<br>(make sure javascript is enabled)</p>
                     {#each loadedRows as row}
                         <tr class="tableRow">
                             <td class="nameColumn">{row.Name}</td>
@@ -308,7 +321,7 @@
                                 </div>
                                 <div class="filterContent">
                                     <p>Name Filter:</p>
-                                    <input class="nameFilterInput" type="text" bind:value={filter.InputValues[0]} on:change={updateSearchParams}>
+                                    <input class="nameFilterInput" type="text" bind:value={filter.InputValues[0]} on:change={updateSearchParams} on:input={loadTable}>
                                 </div>
                             {/if}
                     </div>
@@ -524,15 +537,6 @@
         border-radius: 0px 0px var(--table-border-radius) var(--table-border-radius);
         border: solid 1px rgb(141, 58, 182);
         width: 100%;
-    }
-
-    .loadingMessage {
-        position: relative;
-        top: 300px;
-        height: 0px;
-        margin-top: auto;
-        margin-bottom: auto;
-        text-align: center;
     }
 
     .title {
