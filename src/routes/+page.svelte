@@ -92,7 +92,6 @@
     const startRows = 50;
     let scrollableTable: HTMLDivElement;
     let filterSelector: HTMLSelectElement;
-    let filtersElementsList: HTMLDivElement[] = [];
     let filtersInputs: FilterContent[] = [];
     const searchParams = new URLSearchParams();
 
@@ -133,22 +132,10 @@
     }
 
     const deleteFilter = (i: number) => {
-        filtersElementsList.splice(i, 1);
         filtersInputs.splice(i, 1);
 
-        filtersElementsList = filtersElementsList;
         filtersInputs = filtersInputs;
         updateSearchParams();
-    }
-
-    const trashcanHover = (i: number) => {
-        const trashcanElement = filtersElementsList[i].getElementsByClassName("delBtn")[0];
-        trashcanElement.setAttribute("src", "trashcan_red.png");
-    }
-
-    const trashcanHoverEnd = (i: number) => {
-        const trashcanElement = filtersElementsList[i].getElementsByClassName("delBtn")[0];
-        trashcanElement.setAttribute("src", "trashcan.png");
     }
 
     const updateSearchParams = () => {
@@ -298,15 +285,16 @@
         <div class="filtersColumn">
             <div class="filters">
                 {#each filtersInputs as filter, i}
-                    <div class="filter" bind:this={filtersElementsList[i]}>
+                    <div class="filter">
                         <div class="btns">
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
                             <!-- svelte-ignore a11y-mouse-events-have-key-events -->
                             <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-                            <img class="delBtn" src="trashcan.png" 
-                                on:mouseover={()=>{trashcanHover(i)}}
-                                on:mouseout={()=>{trashcanHoverEnd(i)}}
-                                title="Remove Filter" on:click={()=>{deleteFilter(i)}} alt="trashcan">
+                            <div class="delBtn">
+                                <img class="greyTrashCan" src="trashcan.png" alt="trashcan">
+                                <img class="redTrashCan" src="trashcan_red.png"
+                                    title="Remove Filter" on:click={()=>{deleteFilter(i)}} alt="red trashcan">
+                            </div>
                         </div>
                             {#if filter.Type === "nameContentFilter"}
                                 <div class="filterInfoBtn">
@@ -652,6 +640,20 @@
     .delBtn {
         width: 16px;
         height: 16px;
+    }
+
+    .greyTrashCan {
+        display: block;
+        position: absolute;
+    }
+
+    .redTrashCan {
+        position: absolute;
+        display: none;
+    }
+
+    .delBtn:hover .redTrashCan {
+        display: block;
     }
 
     .btns {
