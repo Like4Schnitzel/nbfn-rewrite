@@ -46,7 +46,7 @@
         return "?"
     }
 
-    async function loadTable()
+    function loadTable()
     {
         allRows = [];
         loadingMessage.classList.remove("hidden");
@@ -77,7 +77,7 @@
         loadingMessage.classList.add("hidden");
     }
 
-    async function addRow() {
+    function addRow() {
         loadedRows.push(allRows[loadedRows.length]);
         loadedRows = loadedRows;
     }
