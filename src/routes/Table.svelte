@@ -1,44 +1,23 @@
-<script lang="ts">
-    import { onMount } from 'svelte';
-    import { filtersInputs } from './+page.svelte';
-
-    interface RarityInfo {
+<script lang="ts" context="module">
+    export type RarityInfo = {
         "Country": string,
         "Rarity": string
     }
 
-    interface NameInfo {
+    export type NameInfo = {
         "Name": string,
         "Gender": "M" | "F" | "1M" | "1F" | "?M" | "?F" | "?",
         "CVBs": number,
         "Rarities": RarityInfo[]
     }
 
-    function maxRarity(rarities: RarityInfo[]) {
-        let max = "~0%";
-        let maxNum = 0;
-        for (const rarityInfo of rarities) {
-            let rarityNum = parseFloat(rarityInfo.Rarity.substring(1, rarityInfo.Rarity.length-1));
+    export let selectedRarity: string = "highest";
+</script>
 
-            if (rarityNum > maxNum) {
-                max = rarityInfo.Rarity;
-            }
-        }
-
-        return max;
-    }
-
-    function getSelectedRarityNum(rarites: RarityInfo[]) {
-        if (selectedRarity === "highest") return maxRarity(rarites);
-
-        for (let rarityInfo of rarites) {
-            if (rarityInfo.Country === selectedRarity) {
-                return rarityInfo.Rarity;
-            }
-        }
-
-        return "?"
-    }
+<script lang="ts">
+    import { onMount } from 'svelte';
+    import { filtersInputs } from './+page.svelte';
+    import Row from './Row.svelte';
 
     function loadTable()
     {
@@ -143,10 +122,13 @@
     let scrollableTable: HTMLDivElement;
     let allRows: any[] = [];    
     const startRows = 50;
-    let selectedRarity: string = "highest";
     let countriesInJSON: string[] = [];
     let jsonContents: { Names: any; Countries: string[]; };
 </script>
+
+<head>
+    <link rel="stylesheet" href="tableRow.css">
+</head>
 
 <div class="table">
     <div class="headers">
@@ -169,28 +151,14 @@
     </div>
     <div class="jsonDiv" on:scroll={loadRows} bind:this={scrollableTable}>
         {#each loadedRows as row}
-            <tr class="tableRow">
-                <td class="nameColumn">{row.Name}</td>
-                <td class="genderColumn">{row.Gender}</td>
-                <td class="cvbColumn">{row.CVBs}</td>
-                <td class="rarityColumn">
-                    {getSelectedRarityNum(row.Rarities)}
-                    <div class="rarityInfoBtn">
-                        <!-- svelte-ignore a11y-missing-attribute -->
-                        <img src="info.png">
-                        <span>
-                            {#each row.Rarities as countryRarityPair}
-                                <p>{countryRarityPair.Country}: {countryRarityPair.Rarity}</p>
-                            {/each}
-                        </span>
-                    </div>
-                </td>
-            </tr>
+            <Row data={row}/>
         {/each}
     </div>
 </div>
 
 <style>
+    @import './tableRows.css';
+
     .nameHeader {
         text-align: left;
         border-radius: var(--table-border-radius) 0px 0px 0px;
@@ -201,28 +169,6 @@
         border-radius: 0px var(--table-border-radius) 0px 0px;
     }
 
-    .rarityInfoBtn img {
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        margin: auto;
-        padding-left: 4px;
-    }
-
-    .rarityInfoBtn span {
-        width: max-content;
-        top: 24px;
-        left: -95px;
-    }
-
-    .rarityInfoBtn:hover span {
-        display: block;
-        text-align: center;
-    }
-
     .table {
         table-layout: fixed;
         background-color: #cb63d9;
@@ -230,14 +176,6 @@
         margin-right: auto;
         border-radius: var(--table-border-radius);
         flex-basis: 35%;
-    }
-
-    .tableRow {
-        background-color: #e1a5e9;
-    }
-
-    .tableRow:nth-child(2n) {
-        background-color: #d785e1;
     }
 
     .countrySelector {
@@ -252,23 +190,6 @@
         border: solid 1px rgb(141, 58, 182);
         width: 100%;
     }
-    
-    .nameColumn {
-        text-align: left;
-        padding-left: 5px;
-    }
-
-    .genderColumn,
-    .cvbColumn {
-        text-align: center;
-        padding-left: 3px;
-        padding-right: 3px;
-    }
-
-    .rarityColumn {
-        text-align: center;
-        position: relative;
-    }
 
     th {
         border-right: solid 1px black;
@@ -281,19 +202,5 @@
         grid-template-columns: 35% 15% 15%  auto;
         margin: 0 auto;
         font-family: Arial, Helvetica, sans-serif;
-    }
-
-    td {
-        border: solid 1px rgb(141, 58, 182);
-    }
-
-    span {
-        z-index: 9;
-        display: none;
-        position: absolute;
-        background-color: antiquewhite;
-        border-radius: 7px;
-        border: 1px solid black;
-        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 </style>

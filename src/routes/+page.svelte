@@ -305,4 +305,18 @@
     .applyFilters:active {
         background-color: rgb(237, 96, 185);
     }
+
+    :global(.expandableInfo) {
+        z-index: 9;
+        display: none;
+        position: absolute;
+        background-color: antiquewhite;
+        border-radius: 7px;
+        border: 1px solid black;
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    :global(.expandableInfo p) {
+        margin: 0;
+    }
 </style>
