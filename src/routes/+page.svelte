@@ -1,162 +1,25 @@
+<script lang="ts" context="module">
+    export type FilterContent = {
+        "Type": string,
+        "InputValues": string[]
+    }
+
+    export let filtersInputs: FilterContent[];
+</script>
+
 <script lang="ts">
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import About from './About.svelte';
+    import Table from './Table.svelte';
 
-    interface RarityInfo {
-        "Country": string,
-        "Rarity": string
-    }
-
-    interface NameInfo {
-        "Name": string,
-        "Gender": "M" | "F" | "1M" | "1F" | "?M" | "?F" | "?",
-        "CVBs": number,
-        "Rarities": RarityInfo[]
-    }
-
-    interface FilterContent {
-        "Type": string,
-        "InputValues": string[]
-    }
-
-    function maxRarity(rarities: RarityInfo[]) {
-        let max = "~0%";
-        let maxNum = 0;
-        for (const rarityInfo of rarities) {
-            let rarityNum = parseFloat(rarityInfo.Rarity.substring(1, rarityInfo.Rarity.length-1));
-
-            if (rarityNum > maxNum) {
-                max = rarityInfo.Rarity;
-            }
-        }
-
-        return max;
-    }
-
-    function getSelectedRarityNum(rarites: RarityInfo[]) {
-        if (selectedRarity === "highest") return maxRarity(rarites);
-
-        for (let rarityInfo of rarites) {
-            if (rarityInfo.Country === selectedRarity) {
-                return rarityInfo.Rarity;
-            }
-        }
-
-        return "?"
-    }
-
-    function loadTable()
-    {
-        allRows = [];
-
-        const names = jsonContents.Names
-        for (const name in names) {
-            let row: NameInfo = {
-                Name: name,
-                Gender: names[name]["Gender"],
-                CVBs: names[name]["CVBs"],
-                Rarities: []
-            };
-            for (const rarity in names[name]["Rarities"]) {
-                row.Rarities.push({
-                    "Country": rarity,
-                    "Rarity": names[name]["Rarities"][rarity]
-                });
-            }
-
-            if (checkFilters(row)) {
-                allRows.push(row);
-            }
-        }
-
-        loadedRows = [];
-        alternatingColor = 1;
-        for (let i = 0; i < allRows.length && i < startRows; i++) {
-            addRow();
-        }
-    }
-
-    function addRow() {
-        loadedRows.push(allRows[loadedRows.length]);
-        loadedRows = loadedRows;
-    }
-
-    function checkFilters(name: NameInfo) {
-        if (filtersInputs.length === 0) return true;
-
-        let passesCheck: boolean = true;
-        let orBasedFilters = {
-            "nameContentFilter": false,
-            "nameLengthFilter": false
-        };
-
-        for (const filter of filtersInputs) {
-            switch (filter.Type) {
-                case "nameContentFilter":
-                    orBasedFilters[filter.Type] ||= new RegExp(filter.InputValues[0]).test(name.Name);
-                    break;
-                case "nameLengthFilter":
-                    switch (filter.InputValues[0]) {
-                        case "<":
-                            orBasedFilters[filter.Type] ||= name.Name.length < parseInt(filter.InputValues[1]);
-                            break;
-                        case ">":
-                            orBasedFilters[filter.Type] ||= name.Name.length > parseInt(filter.InputValues[1]);
-                            break;
-                        case "=":
-                            orBasedFilters[filter.Type] ||= name.Name.length === parseInt(filter.InputValues[1]);
-                            break;
-                    }
-                    break;
-            }
-        }
-
-        for (const [key, value] of Object.entries(orBasedFilters)) {
-            passesCheck &&= value;
-        }
-
-        return passesCheck;
-    }
-
-    let selectedRarity: string = "highest";
-    let countriesInJSON: string[] = [];
-    let jsonContents: { Names: any; Countries: string[]; };
-    let allRows: any[] = [];
-    let alternatingColor: number;
-    let loadedRows: NameInfo[] = [];
-    const startRows = 50;
-    let scrollableTable: HTMLDivElement;
     let filterSelector: HTMLSelectElement;
-    let filtersInputs: FilterContent[] = [];
     const searchParams = new URLSearchParams();
 
-    onMount(async () => {
-        const res = await fetch('nam_dict.json');
-        jsonContents = await res.json();
-        const countries: string[] = jsonContents.Countries;
-
-        for (const country of countries) {
-            countriesInJSON.push(country);
-        }
-        countriesInJSON = countriesInJSON;
-
+    onMount(() => {
         filtersInputs = JSON.parse($page.url.searchParams.get('filters') || "[]");
-        loadTable();
     });
-
-    const loadRarities = () => {
-        loadedRows = loadedRows;
-    }
-
-    const loadRows = () => {
-        const toAdd = scrollableTable.scrollTop / 20 - (loadedRows.length - startRows);
-
-        for (let i = 0; i < allRows.length && i < toAdd; i++) {
-            addRow();
-        }
-    }
 
     const addFilter = () => {
         filtersInputs.push({
@@ -171,7 +34,7 @@
 
     const deleteFilter = (i: number) => {
         filtersInputs.splice(i, 1);
-        loadTable();
+        //loadTable();
 
         filtersInputs = filtersInputs;
         updateSearchParams();
@@ -200,61 +63,16 @@
     </div>
     <div class="tableSpace">
         <About/>
-        <div class="tableColumn">
-            <div class="table">
-                <div class="headers">
-                    <tr>
-                        <th class="nameColumn nameHeader">Name</th>
-                        <th class="genderColumn">Gender</th>
-                        <th class="cvbColumn">CVBs</th>
-                        <th class="rarityColumn rarityHeader">
-                            <div class="hidden rarityLoading">
-                                Loading...
-                            </div>
-                            <div id="raritySelection">
-                                Rarity in
-                                <select bind:value={selectedRarity} on:change={loadRarities} class="countrySelector">
-                                    <option value="highest" selected>highest</option>
-                                    {#each countriesInJSON as country}
-                                        <option value={country}>{country}</option>
-                                    {/each}
-                                </select>
-                            </div>
-                        </th>
-                    </tr>
-                </div>
-                <div class="jsonDiv" on:scroll={loadRows} bind:this={scrollableTable}>
-                    {#each loadedRows as row}
-                        <tr class="tableRow">
-                            <td class="nameColumn">{row.Name}</td>
-                            <td class="genderColumn">{row.Gender}</td>
-                            <td class="cvbColumn">{row.CVBs}</td>
-                            <td class="rarityColumn">
-                                {getSelectedRarityNum(row.Rarities)}
-                                <div class="rarityInfoBtn">
-                                    <!-- svelte-ignore a11y-missing-attribute -->
-                                    <img src="info.png">
-                                    <span>
-                                        {#each row.Rarities as countryRarityPair}
-                                            <p>{countryRarityPair.Country}: {countryRarityPair.Rarity}</p>
-                                        {/each}
-                                    </span>
-                                </div>
-                            </td>
-                        </tr>
-                    {/each}
-                </div>
-            </div>
-        </div>
+        <Table/>
         <div class="filtersColumn">
             <div class="filters">
-                {#each filtersInputs as filter, i}
+                <!-- {#each filtersInputs as filter, i}
                     <div class="filter" on:change={updateSearchParams}>
                         <div class="btns">
                             <!-- svelte-ignore a11y-click-events-have-key-events -->
                             <!-- svelte-ignore a11y-mouse-events-have-key-events -->
                             <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-                            <div class="delBtn">
+                            <!-- <div class="delBtn">
                                 <img class="greyTrashCan" src="trashcan.png" alt="trashcan">
                                 <img class="redTrashCan" src="trashcan_red.png"
                                     title="Remove Filter" on:click={()=>{deleteFilter(i)}} alt="red trashcan">
@@ -272,7 +90,7 @@
                             </div>
                             <div class="filterContent">
                                 <p>Name Filter:</p>
-                                <input class="nameFilterInput" type="text" bind:value={filter.InputValues[0]} on:input={loadTable}>
+                                <input class="nameFilterInput" type="text" bind:value={filter.InputValues[0]}>
                             </div>
                         {:else if filter.Type === "nameLengthFilter"}
                             <div class="filterInfoBtn">
@@ -289,11 +107,11 @@
                                     <option value=">">&gt;</option>
                                     <option value="=">=</option>
                                 </select>
-                                <input class="nameLengthInput" type="number" min="0" bind:value={filter.InputValues[1]} on:input={loadTable}>
+                                <input class="nameLengthInput" type="number" min="0" bind:value={filter.InputValues[1]}>
                             </div>
                         {/if}
                     </div>
-                {/each}
+                {/each} -->
             </div>
             <select class="addFilter" bind:this={filterSelector} on:change={addFilter}>
                 <option value="std" selected>Add Filter</option>
@@ -310,7 +128,7 @@
                     <option value="raritySort">Rarity</option>
                 </optgroup>
             </select>
-            <button class="applyFilters" on:click={loadTable}>Apply Filters</button>
+            <button class="applyFilters">Apply Filters</button>
         </div>
     </div>
 </body>
@@ -356,84 +174,6 @@
         justify-content: space-evenly;
     }
 
-    .tableColumn {
-        flex-basis: 35%;
-    }
-
-    .nameHeader {
-        text-align: left;
-        border-radius: var(--table-border-radius) 0px 0px 0px;
-    }
-
-    .rarityHeader {
-        position: relative;
-        border-radius: 0px var(--table-border-radius) 0px 0px;
-    }
-
-    .rarityLoading {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 3px;
-        margin: auto;
-    }
-
-    .rarityInfoBtn img {
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        margin: auto;
-        padding-left: 4px;
-    }
-
-    .rarityInfoBtn span {
-        width: max-content;
-        top: 24px;
-        left: -95px;
-    }
-
-    .rarityInfoBtn:hover span {
-        display: block;
-        text-align: center;
-    }
-
-    .tableSpace {
-        display: flex;
-        justify-content: space-evenly;
-    }
-
-    .table {
-        table-layout: fixed;
-        background-color: #cb63d9;
-        margin-left: auto;
-        margin-right: auto;
-        border-radius: var(--table-border-radius);
-    }
-
-    .tableRow {
-        background-color: #e1a5e9;
-    }
-
-    .tableRow:nth-child(2n) {
-        background-color: #d785e1;
-    }
-
-    .countrySelector {
-        width: 52%;
-    }
-
-    .jsonDiv {
-        height: 780px;
-        overflow-y: auto;
-        overflow: overlay;
-        border-radius: 0px 0px var(--table-border-radius) var(--table-border-radius);
-        border: solid 1px rgb(141, 58, 182);
-        width: 100%;
-    }
-
     .title {
         color: rgb(240, 252, 255);
         padding-top: 25px;
@@ -454,54 +194,6 @@
         margin-bottom: 0px;
         margin-top: 0px;
         vertical-align: text-bottom;
-    }
-
-    .hidden {
-        visibility: hidden;
-    }
-
-    .nameColumn {
-        text-align: left;
-        padding-left: 5px;
-    }
-
-    .genderColumn,
-    .cvbColumn {
-        text-align: center;
-        padding-left: 3px;
-        padding-right: 3px;
-    }
-
-    .rarityColumn {
-        text-align: center;
-        position: relative;
-    }
-
-    th {
-        border-right: solid 1px black;
-        border-left: solid 1px black;
-        border-top: solid 1px black;
-    }
-
-    tr {
-        display: grid;
-        grid-template-columns: 35% 15% 15%  auto;
-        margin: 0 auto;
-        font-family: Arial, Helvetica, sans-serif;
-    }
-
-    td {
-        border: solid 1px rgb(141, 58, 182);
-    }
-
-    span {
-        z-index: 9;
-        display: none;
-        position: absolute;
-        background-color: antiquewhite;
-        border-radius: 7px;
-        border: 1px solid black;
-        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .nameFilterInput {
