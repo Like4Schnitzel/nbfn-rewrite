@@ -16,8 +16,11 @@
 
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { filtersInputs } from './+page.svelte';
+    import { filtersInputs } from './Filters.svelte';
+    import { target } from './index.js';
     import Row from './Row.svelte';
+
+    target.addEventListener('loadTable', () => {loadTable()});
 
     function loadTable()
     {
@@ -125,10 +128,6 @@
     let countriesInJSON: string[] = [];
     let jsonContents: { Names: any; Countries: string[]; };
 </script>
-
-<head>
-    <link rel="stylesheet" href="tableRow.css">
-</head>
 
 <div class="table">
     <div class="headers">
