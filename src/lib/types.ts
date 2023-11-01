@@ -1,5 +1,5 @@
 export type FilterContent = {
-    "Type": string,
+    "Type": FilterType,
     "InputValues": string[]
 }
 
@@ -14,3 +14,14 @@ export type NameInfo = {
     "CVBs": number,
     "Rarities": RarityInfo[]
 }
+
+export type FilterType = "nameContentFilter" |
+                         "nameLengthFilter" |
+                         "genderFilter" |
+                         "CVBFilter" |
+                         "rarityFilter" |
+                         "nameSort" |
+                         "cvbSort" |
+                         "raritySort";
+
+export type DictOfFilterTypes = Record<keyof FilterType, boolean>;

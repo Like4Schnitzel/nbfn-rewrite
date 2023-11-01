@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type { NameInfo } from '$lib/types';
+    import type { NameInfo, FilterType, DictOfFilterTypes } from '$lib/types';
     import { onMount } from 'svelte';
-    import { target } from '$lib/index';
+    import { target, orBasedFilters } from '$lib/index';
     import { filtersInputs } from '$lib/stores';
     import Row from './Row.svelte';
 
@@ -10,6 +10,13 @@
     function loadTable()
     {
         allRows = [];
+
+        let orBasedFiltersPresent = {} as DictOfFilterTypes;
+        for (const filter of $filtersInputs) {
+            if (orBasedFilters.includes(filter.Type)) {
+                orBasedFiltersPresent[filter.Type] = false;
+            }
+        }
 
         const names = jsonContents.Names
         for (const name in names) {
@@ -47,10 +54,6 @@
         if ($filtersInputs.length === 0) return true;
 
         let passesCheck: boolean = true;
-        let orBasedFilters = {
-            "nameContentFilter": false,
-            "nameLengthFilter": false
-        };
 
         for (const filter of $filtersInputs) {
             switch (filter.Type) {
