@@ -1,23 +1,8 @@
-<script lang="ts" context="module">
-    export type RarityInfo = {
-        "Country": string,
-        "Rarity": string
-    }
-
-    export type NameInfo = {
-        "Name": string,
-        "Gender": "M" | "F" | "1M" | "1F" | "?M" | "?F" | "?",
-        "CVBs": number,
-        "Rarities": RarityInfo[]
-    }
-
-    export let selectedRarity: string = "highest";
-</script>
-
 <script lang="ts">
+    import type { NameInfo } from '$lib/types';
     import { onMount } from 'svelte';
-    import { filtersInputs } from './Filters.svelte';
-    import { target } from './index.js';
+    import { target } from '$lib/index';
+    import { filtersInputs } from '$lib/stores';
     import Row from './Row.svelte';
 
     target.addEventListener('loadTable', () => {loadTable()});
@@ -59,7 +44,7 @@
     }
 
     function checkFilters(name: NameInfo) {
-        if (filtersInputs.length === 0) return true;
+        if ($filtersInputs.length === 0) return true;
 
         let passesCheck: boolean = true;
         let orBasedFilters = {
@@ -67,7 +52,7 @@
             "nameLengthFilter": false
         };
 
-        for (const filter of filtersInputs) {
+        for (const filter of $filtersInputs) {
             switch (filter.Type) {
                 case "nameContentFilter":
                     orBasedFilters[filter.Type] ||= new RegExp(filter.InputValues[0]).test(name.Name);
@@ -120,6 +105,7 @@
         loadTable();
     });
 
+    let selectedRarity: string;
     let loadedRows: NameInfo[] = [];
     let alternatingColor: number;
     let scrollableTable: HTMLDivElement;
@@ -150,7 +136,7 @@
     </div>
     <div class="jsonDiv" on:scroll={loadRows} bind:this={scrollableTable}>
         {#each loadedRows as row}
-            <Row data={row}/>
+            <Row data={row} rarity={selectedRarity}/>
         {/each}
     </div>
 </div>

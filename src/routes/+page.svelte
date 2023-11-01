@@ -1,17 +1,20 @@
-<script lang="ts" context="module">
-    const searchParams = new URLSearchParams();
-    export const updateSearchParams = () => {
-        searchParams.set("filters", JSON.stringify(filtersInputs));
-        goto(`?${searchParams.toString()}`);
-    }
-</script>
-
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { filtersInputs } from './Filters.svelte';
+    import { filtersInputs } from '$lib/stores';
+    import { target } from '$lib/index';
     import About from './About.svelte';
     import Table from './Table.svelte';
     import Filters from './Filters.svelte';
+
+    const searchParams = new URLSearchParams();
+    const updateSearchParams = () => {
+        searchParams.set("filters", JSON.stringify($filtersInputs));
+        goto(`?${searchParams.toString()}`);
+    }
+
+    target.addEventListener("updateSearchParams", () => {
+        updateSearchParams();
+    });
 </script>
 
 <head>

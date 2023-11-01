@@ -1,6 +1,11 @@
 <script lang="ts">
-    import type { NameInfo, RarityInfo } from "./Table.svelte";
-    import { selectedRarity } from "./Table.svelte";
+    import type { RarityInfo, NameInfo } from "$lib/types";
+
+    let rowData: NameInfo;
+    let selectedRarity: string;
+
+    export { rowData as data };
+    export { selectedRarity as rarity };
 
     function maxRarity(rarities: RarityInfo[]) {
         let max = "~0%";
@@ -27,9 +32,6 @@
 
         return "?"
     }
-
-    let rowData: NameInfo;
-    export { rowData as data };
 </script>
 
 <tr class="tableRow">
