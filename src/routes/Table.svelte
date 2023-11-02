@@ -11,7 +11,7 @@
     {
         allRows = [];
 
-        let orBasedFiltersPresent = {} as DictOfFilterTypes;
+        orBasedFiltersPresent = {} as DictOfFilterTypes;
         for (const filter of $filtersInputs) {
             if (orBasedFilters.includes(filter.Type)) {
                 orBasedFiltersPresent[filter.Type] = false;
@@ -57,26 +57,26 @@
 
         for (const filter of $filtersInputs) {
             switch (filter.Type) {
-                case "nameContentFilter":
-                    orBasedFilters[filter.Type] ||= new RegExp(filter.InputValues[0]).test(name.Name);
+                case "nameContentFilter": FilterType:
+                    orBasedFiltersPresent[filter.Type] ||= new RegExp(filter.InputValues[0]).test(name.Name);
                     break;
-                case "nameLengthFilter":
+                case "nameLengthFilter": FilterType:
                     switch (filter.InputValues[0]) {
                         case "<":
-                            orBasedFilters[filter.Type] ||= name.Name.length < parseInt(filter.InputValues[1]);
+                            orBasedFiltersPresent[filter.Type] ||= name.Name.length < parseInt(filter.InputValues[1]);
                             break;
                         case ">":
-                            orBasedFilters[filter.Type] ||= name.Name.length > parseInt(filter.InputValues[1]);
+                            orBasedFiltersPresent[filter.Type] ||= name.Name.length > parseInt(filter.InputValues[1]);
                             break;
                         case "=":
-                            orBasedFilters[filter.Type] ||= name.Name.length === parseInt(filter.InputValues[1]);
+                            orBasedFiltersPresent[filter.Type] ||= name.Name.length === parseInt(filter.InputValues[1]);
                             break;
                     }
                     break;
             }
         }
 
-        for (const [key, value] of Object.entries(orBasedFilters)) {
+        for (const [key, value] of Object.entries(orBasedFiltersPresent)) {
             passesCheck &&= value;
         }
 
@@ -116,6 +116,7 @@
     const startRows = 50;
     let countriesInJSON: string[] = [];
     let jsonContents: { Names: any; Countries: string[]; };
+    let orBasedFiltersPresent: DictOfFilterTypes;
 </script>
 
 <div class="table">

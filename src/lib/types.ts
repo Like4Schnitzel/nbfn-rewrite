@@ -24,4 +24,4 @@ export type FilterType = "nameContentFilter" |
                          "cvbSort" |
                          "raritySort";
 
-export type DictOfFilterTypes = Record<keyof FilterType, boolean>;
+export type DictOfFilterTypes = Record<FilterType, boolean>;
