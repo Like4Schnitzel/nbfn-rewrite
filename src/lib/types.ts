@@ -10,7 +10,7 @@ export type PracticalFilterContent = {
 
 export type RarityInfo = {
     Country: string,
-    Rarity: string
+    Rarity: number
 }
 
 export type NameInfo = {

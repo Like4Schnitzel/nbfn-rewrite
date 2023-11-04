@@ -8,12 +8,11 @@
     export { selectedRarity as rarity };
 
     function maxRarity(rarities: RarityInfo[]) {
-        let max = "~0%";
-        let maxNum = 0;
+        let max = 0;
         for (const rarityInfo of rarities) {
-            let rarityNum = parseFloat(rarityInfo.Rarity.substring(1, rarityInfo.Rarity.length-1));
+            let rarityNum = rarityInfo.Rarity;
 
-            if (rarityNum > maxNum) {
+            if (rarityNum > max) {
                 max = rarityInfo.Rarity;
             }
         }
@@ -39,12 +38,12 @@
     <td class="genderColumn">{rowData.Gender}</td>
     <td class="cvbColumn">{rowData.CVBs}</td>
     <td class="rarityColumn">
-        {getSelectedRarityNum(rowData.Rarities)}
+        ~{getSelectedRarityNum(rowData.Rarities)}%
         <div class="rarityInfoBtn">
             <img src="info.png" alt="blue circle with a white i character">
             <span class="expandableInfo">
                 {#each rowData.Rarities as countryRarityPair}
-                    <p>{countryRarityPair.Country}: {countryRarityPair.Rarity}</p>
+                    <p>{countryRarityPair.Country}: ~{countryRarityPair.Rarity}%</p>
                 {/each}
             </span>
         </div>
