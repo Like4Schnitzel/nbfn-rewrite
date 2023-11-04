@@ -41,8 +41,7 @@
     <td class="rarityColumn">
         {getSelectedRarityNum(rowData.Rarities)}
         <div class="rarityInfoBtn">
-            <!-- svelte-ignore a11y-missing-attribute -->
-            <img src="info.png">
+            <img src="info.png" alt="blue circle with a white i character">
             <span class="expandableInfo">
                 {#each rowData.Rarities as countryRarityPair}
                     <p>{countryRarityPair.Country}: {countryRarityPair.Rarity}</p>
