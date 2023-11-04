@@ -1,18 +1,23 @@
 export type FilterContent = {
-    "Type": FilterType,
-    "InputValues": string[]
+    Type: FilterType,
+    InputValues: string[]
+}
+
+export type PracticalFilterContent = {
+    Type: FilterType,
+    InputValues: any[]
 }
 
 export type RarityInfo = {
-    "Country": string,
-    "Rarity": string
+    Country: string,
+    Rarity: string
 }
 
 export type NameInfo = {
-    "Name": string,
-    "Gender": "M" | "F" | "1M" | "1F" | "?M" | "?F" | "?",
-    "CVBs": number,
-    "Rarities": RarityInfo[]
+    Name: string,
+    Gender: "M" | "F" | "1M" | "1F" | "?M" | "?F" | "?",
+    CVBs: number,
+    Rarities: RarityInfo[]
 }
 
 export type FilterType = "nameContentFilter" |
