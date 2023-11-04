@@ -14,7 +14,7 @@
         rowsToLoad = [];
 
         for (const row of allRowsInJSON) {
-            if (needFilterCheck || checkFilters(row, usableFilters)) {
+            if (!needFilterCheck || checkFilters(row, usableFilters)) {
                 rowsToLoad.push(row);
             }
         }
