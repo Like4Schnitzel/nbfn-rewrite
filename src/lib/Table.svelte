@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { NameInfo, FilterType, DictOfFilterTypes, PracticalFilterContent } from '$lib/types';
+    import type { NameInfo, DictOfFilterTypes, PracticalFilterContent, Gender } from '$lib/types';
     import { onMount } from 'svelte';
     import { target } from '$lib/index';
     import { filtersInputs } from '$lib/stores';
@@ -51,6 +51,9 @@
                             orValues[filter.Type] ||= name.Name.length === filter.InputValues[1];
                             break;
                     }
+                    break;
+                case "genderFilter":
+                    orValues[filter.Type] ||= name.Gender === filter.InputValues[0];
                     break;
                 case "CVBFilter":
                     switch (filter.InputValues[0]) {
@@ -108,6 +111,11 @@
                             parseInt(filter.InputValues[1])
                         );
                     }
+                    break;
+                case "genderFilter":
+                    practicalFiltersInputs[i].InputValues.push(
+                        filter.InputValues[0]
+                    );
                     break;
             }
         }
