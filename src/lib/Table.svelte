@@ -28,7 +28,7 @@
                 });
             }
 
-            if (needFilterCheck && checkFilters(row, usableFilters)) {
+            if (needFilterCheck || checkFilters(row, usableFilters)) {
                 allRows.push(row);
             }
         }
