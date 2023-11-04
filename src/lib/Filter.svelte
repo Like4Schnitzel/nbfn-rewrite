@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { FilterContent } from "$lib/types";
-    import { filtersInputs } from "$lib/stores";
+    import { countriesInJSON, filtersInputs } from "$lib/stores";
     import { target } from "$lib/index";
 
     export let filter: FilterContent;
@@ -52,8 +52,8 @@
         <div class="filterInfoBtn">
             <img src="info.png" alt="blue circle with white i character">
             <span class="expandableInfo">
-                This will only include entries where the name is
-                longer/shorter than/equal to the provided length.
+                This will only include entries where the name length is
+                longer/shorter than/equal to the provided one.
             </span>
         </div>
         <div class="filterContent">
@@ -71,7 +71,7 @@
             <img src="info.png" alt="blue circle with white i character">
             <span class="expandableInfo">
                 This will only include entries where the CVB count is
-                longer/shorter than/equal to the provided length.
+                longer/shorter than/equal to the provided one.
             </span>
         </div>
         <div class="filterContent">
@@ -104,7 +104,34 @@
                 <option value="?">?</option>
             </select>
         </div>
-    
+
+    {:else if filter.Type === "rarityFilter"}
+        <div class="filterInfoBtn">
+            <img src="info.png" alt="blue circle with white i character">
+            <span class="expandableInfo">
+                This will only include entries where the rarity is
+                longer/shorter than/equal to the provided one.
+            </span>
+        </div>
+        <div class="filterContent">
+            <p>Rarity OR-Filter</p>
+            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+                <option value="<">&lt;</option>
+                <option value=">">&gt;</option>
+                <option value="=">=</option>
+            </select>
+            <div class="squishTogether">
+                <input class="inputField numInput" type="number" min="0" bind:value={filter.InputValues[1]} on:input={loadTable}>
+                <p>%</p>
+            </div>
+            <p>in</p>
+            <select class="countrySelect" bind:value={filter.InputValues[2]} on:change={loadTable}>
+                <option value="highest" selected>highest</option>
+                {#each $countriesInJSON as country}
+                    <option value={country}>{country}</option>
+                {/each}
+            </select>
+        </div>
     {/if}
 </div>
 
@@ -117,6 +144,28 @@
 
     .numInput {
         text-align: right;
+        width: 15%;
+    }
+
+    .countrySelect {
+        width: 15%;
+    }
+
+    .squishTogether {
+        width: 20%;
+        display: flex;
+    }
+
+    .squishTogether .numInput {
+        width: 90%;
+        height: fit-content;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    p {
+        margin: 0;
+        display: inline;
     }
 
     .filterContent {
@@ -124,7 +173,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 1rem;
+        gap: 2%;
         justify-content: center;
     }
 
