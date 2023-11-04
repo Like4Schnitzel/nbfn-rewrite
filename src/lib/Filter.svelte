@@ -44,7 +44,7 @@
             </span>
         </div>
         <div class="filterContent">
-            <p>Name Filter:</p>
+            <p>Name OR-Filter:</p>
             <input class="nameFilterInput" type="text" bind:value={filter.InputValues[0]} on:input={loadTable}>
         </div>
 
@@ -57,13 +57,30 @@
             </span>
         </div>
         <div class="filterContent">
-            <p>Name Length Filter:</p>
+            <p>Name Length OR-Filter:</p>
             <select bind:value={filter.InputValues[0]}>
                 <option value="<">&lt;</option>
                 <option value=">">&gt;</option>
                 <option value="=">=</option>
             </select>
             <input class="nameLengthInput" type="number" min="0" bind:value={filter.InputValues[1]} on:input={loadTable}>
+        </div>
+
+    {:else if filter.Type === "CVBFilter"}
+        <div class="filterInfoBtn">
+            <img src="info.png" alt="blue circle with white i character">
+            <span class="expandableInfo">
+                This will only include entries where the CVB count is
+                longer/shorter than/equal to the provided length.
+            </span>
+        </div>
+        <div class="filterContent">
+            <select bind:value={filter.InputValues[0]}>
+                <option value="<">&lt;</option>
+                <option value=">">&gt;</option>
+                <option value="=">=</option>
+            </select>
+            <input class="cvbCountInput" type="number" min="0" bind:value={filter.InputValues[1]} on:input={loadTable}>
         </div>
     {/if}
 </div>
