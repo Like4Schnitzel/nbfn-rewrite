@@ -36,10 +36,10 @@
 
         for (const filter of filters) {
             switch (filter.Type) {
-                case "nameContentFilter": FilterType:
+                case "nameContentFilter":
                     orValues[filter.Type] ||= filter.InputValues[0].test(name.Name);
                     break;
-                case "nameLengthFilter": FilterType:
+                case "nameLengthFilter":
                     switch (filter.InputValues[0]) {
                         case "<":
                             orValues[filter.Type] ||= name.Name.length < filter.InputValues[1];
@@ -49,6 +49,19 @@
                             break;
                         case "=":
                             orValues[filter.Type] ||= name.Name.length === filter.InputValues[1];
+                            break;
+                    }
+                    break;
+                case "CVBFilter":
+                    switch (filter.InputValues[0]) {
+                        case "<":
+                            orValues[filter.Type] ||= name.CVBs < filter.InputValues[1];
+                            break;
+                        case ">":
+                            orValues[filter.Type] ||= name.CVBs > filter.InputValues[1];
+                            break;
+                        case "=":
+                            orValues[filter.Type] ||= name.CVBs === filter.InputValues[1];
                             break;
                     }
                     break;
@@ -74,7 +87,7 @@
             });
 
             switch (filter.Type) {
-                case "nameContentFilter": FilterType:
+                case "nameContentFilter":
                     try {
                         practicalFiltersInputs[i].InputValues.push(
                             new RegExp(filter.InputValues[0])
@@ -85,13 +98,15 @@
                         );
                     }
                     break;
-                case "nameLengthFilter": FilterType:
+                case "nameLengthFilter":
+                case "CVBFilter":
                     practicalFiltersInputs[i].InputValues.push(
                         filter.InputValues[0]
                     );
                     practicalFiltersInputs[i].InputValues.push(
                         parseInt(filter.InputValues[1])
                     );
+                    break;
             }
         }
 
