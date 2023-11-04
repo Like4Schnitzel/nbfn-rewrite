@@ -9,6 +9,7 @@
 
     function loadTable()
     {
+        const needFilterCheck = $filtersInputs.length > 0;
         allRows = [];
 
         const names = jsonContents.Names
@@ -26,7 +27,7 @@
                 });
             }
 
-            if (checkFilters(row)) {
+            if (needFilterCheck && checkFilters(row)) {
                 allRows.push(row);
             }
         }
@@ -44,8 +45,6 @@
     }
 
     function checkFilters(name: NameInfo) {
-        if ($filtersInputs.length === 0) return true;
-
         let passesCheck: boolean = true;
         let orValues = {} as DictOfFilterTypes;
 
@@ -71,7 +70,8 @@
         }
 
         for (const [key, value] of Object.entries(orValues)) {
-            passesCheck &&= value;
+            if (!value)
+                return false;
         }
 
         return passesCheck;
