@@ -83,7 +83,10 @@
 
         for (let i = 0; i < $filtersInputs.length; i++) {
             const filter = $filtersInputs[i];
-            practicalFiltersInputs[i].Type = filter.Type;
+            practicalFiltersInputs.push({
+                Type: filter.Type,
+                InputValues: []
+            });
 
             switch (filter.Type) {
                 case "nameContentFilter": FilterType:
