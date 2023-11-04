@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { NameInfo, FilterType, DictOfFilterTypes } from '$lib/types';
+    import type { NameInfo, FilterType, DictOfFilterTypes, PracticalFilterContent } from '$lib/types';
     import { onMount } from 'svelte';
     import { target } from '$lib/index';
     import { filtersInputs } from '$lib/stores';
@@ -10,6 +10,7 @@
     function loadTable()
     {
         const needFilterCheck = $filtersInputs.length > 0;
+        let usableFilters = filtersInputsStringsToValues();
         allRows = [];
 
         const names = jsonContents.Names
@@ -27,7 +28,7 @@
                 });
             }
 
-            if (needFilterCheck && checkFilters(row)) {
+            if (needFilterCheck && checkFilters(row, usableFilters)) {
                 allRows.push(row);
             }
         }
@@ -44,25 +45,25 @@
         loadedRows = loadedRows;
     }
 
-    function checkFilters(name: NameInfo) {
+    function checkFilters(name: NameInfo, filters: PracticalFilterContent[]) {
         let passesCheck: boolean = true;
         let orValues = {} as DictOfFilterTypes;
 
-        for (const filter of $filtersInputs) {
+        for (const filter of filters) {
             switch (filter.Type) {
                 case "nameContentFilter": FilterType:
-                    orValues[filter.Type] ||= new RegExp(filter.InputValues[0]).test(name.Name);
+                    orValues[filter.Type] ||= filter.InputValues[0].test(name.Name);
                     break;
                 case "nameLengthFilter": FilterType:
                     switch (filter.InputValues[0]) {
                         case "<":
-                            orValues[filter.Type] ||= name.Name.length < parseInt(filter.InputValues[1]);
+                            orValues[filter.Type] ||= name.Name.length < filter.InputValues[1];
                             break;
                         case ">":
-                            orValues[filter.Type] ||= name.Name.length > parseInt(filter.InputValues[1]);
+                            orValues[filter.Type] ||= name.Name.length > filter.InputValues[1];
                             break;
                         case "=":
-                            orValues[filter.Type] ||= name.Name.length === parseInt(filter.InputValues[1]);
+                            orValues[filter.Type] ||= name.Name.length === filter.InputValues[1];
                             break;
                     }
                     break;
@@ -75,6 +76,32 @@
         }
 
         return passesCheck;
+    }
+
+    function filtersInputsStringsToValues() {
+        let practicalFiltersInputs: PracticalFilterContent[] = [];
+
+        for (let i = 0; i < $filtersInputs.length; i++) {
+            const filter = $filtersInputs[i];
+            practicalFiltersInputs[i].Type = filter.Type;
+
+            switch (filter.Type) {
+                case "nameContentFilter": FilterType:
+                    practicalFiltersInputs[i].InputValues.push(
+                        new RegExp(filter.InputValues[0])
+                    );
+                    break;
+                case "nameLengthFilter": FilterType:
+                    practicalFiltersInputs[i].InputValues.push(
+                        filter.InputValues[0]
+                    );
+                    practicalFiltersInputs[i].InputValues.push(
+                        parseInt(filter.InputValues[1])
+                    );
+            }
+        }
+
+        return practicalFiltersInputs;
     }
 
     const loadRarities = () => {
