@@ -63,7 +63,7 @@
             <p>
                 Obtained from <a href="https://ftp.heise.de/ct/listings/0717-182.zip">ftp.heise.de/ct/listings/0717-182.zip</a>
                 (&copy; 2007-2008 Jörg MICHAEL, Adalbert-Stifter-Str. 11, 30655 Hannover, Germany)
-                and processed into <a href="/data/nam_dict.json">nam_dict.json</a>, which is also available under the
+                and processed into <a href="nam_dict.json">nam_dict.json</a>, which is also available under the
                 <a href="https://www.gnu.org/licenses/fdl-1.3.en.html">GNU FDL</a>.
             </p>
             <h2>Misc. Credits<br></h2>
