@@ -13,8 +13,8 @@
 
     const addFilter = () => {
         filtersInputs.add({
-            "Type": filterSelector.value,
-            "InputValues": []
+            Type: filterSelector.value,
+            InputValues: []
         });
 
         filterSelector.value = "std";
