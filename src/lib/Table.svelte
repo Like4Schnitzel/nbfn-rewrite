@@ -183,52 +183,53 @@
 
 <style>
     .nameHeader {
-      text-align: left;
-      border-radius: var(--table-border-radius) 0px 0px 0px;
+        text-align: left;
+        border-radius: var(--table-border-radius) 0px 0px 0px;
     }
   
     .rarityHeader {
-      position: relative;
-      border-radius: 0px var(--table-border-radius) 0px 0px;
+        position: relative;
+        border-radius: 0px var(--table-border-radius) 0px 0px;
     }
   
     table {
-      table-layout: fixed;
-      background-color: #cb63d9;
-      border-radius: var(--table-border-radius);
-      flex-basis: 35%;
-      width: max-content;
+        table-layout: fixed;
+        flex-basis: 35%;
+        width: max-content;
     }
 
     thead {
+        background-color: #cb63d9;
+        border-radius: var(--table-border-radius) var(--table-border-radius) 0 0;
         display: block;
     }
 
     tbody {
-      display: block;
-      overflow-y: overlay;
-      height: 80vh;
-      border-radius: 0 0 var(--table-border-radius) var(--table-border-radius);
+        background-color: #cb63d9;
+        display: block;
+        overflow-y: overlay;
+        height: 80vh;
+        border-radius: 0 0 var(--table-border-radius) var(--table-border-radius);
     }
 
     tbody::-webkit-scrollbar {
-      display: none;
+        display: none;
     }
   
     .countrySelector {
-      width: 52%;
+        width: 52%;
     }
   
     th {
-      border-right: solid 1px black;
-      border-left: solid 1px black;
-      border-top: solid 1px black;
+        border-right: solid 1px black;
+        border-left: solid 1px black;
+        border-top: solid 1px black;
     }
   
     tr {
-      display: grid;
-      grid-template-columns: 35% 15% 15% auto;
-      margin: 0 auto;
-      font-family: Arial, Helvetica, sans-serif;
+        display: grid;
+        grid-template-columns: 35% 15% 15% auto;
+        margin: 0 auto;
+        font-family: Arial, Helvetica, sans-serif;
     }
   </style>
