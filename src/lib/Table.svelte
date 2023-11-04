@@ -9,39 +9,25 @@
 
     function loadTable()
     {
-        const needFilterCheck = $filtersInputs.length > 0;
         let usableFilters = filtersInputsStringsToValues();
-        allRows = [];
+        const needFilterCheck = usableFilters.length > 0;
+        rowsToLoad = [];
 
-        const names = jsonContents.Names
-        for (const name in names) {
-            let row: NameInfo = {
-                Name: name,
-                Gender: names[name]["Gender"],
-                CVBs: names[name]["CVBs"],
-                Rarities: []
-            };
-            for (const rarity in names[name]["Rarities"]) {
-                row.Rarities.push({
-                    "Country": rarity,
-                    "Rarity": names[name]["Rarities"][rarity]
-                });
-            }
-
+        for (const row of allRowsInJSON) {
             if (needFilterCheck || checkFilters(row, usableFilters)) {
-                allRows.push(row);
+                rowsToLoad.push(row);
             }
         }
 
         loadedRows = [];
         alternatingColor = 1;
-        for (let i = 0; i < allRows.length && i < startRows; i++) {
+        for (let i = 0; i < rowsToLoad.length && i < startRows; i++) {
             addRow();
         }
     }
 
     function addRow() {
-        loadedRows.push(allRows[loadedRows.length]);
+        loadedRows.push(rowsToLoad[loadedRows.length]);
         loadedRows = loadedRows;
     }
 
@@ -120,7 +106,7 @@
     const loadRows = () => {
         const toAdd = scrollableTable.scrollTop / 20 - (loadedRows.length - startRows);
 
-        for (let i = 0; i < allRows.length && i < toAdd; i++) {
+        for (let i = 0; i < rowsToLoad.length && i < toAdd; i++) {
             addRow();
         }
     }
@@ -135,6 +121,24 @@
         }
         countriesInJSON = countriesInJSON;
 
+        const names = jsonContents.Names;
+        for (const name in names) {
+            let row: NameInfo = {
+                Name: name,
+                Gender: names[name]["Gender"],
+                CVBs: names[name]["CVBs"],
+                Rarities: []
+            };
+            for (const rarity in names[name]["Rarities"]) {
+                row.Rarities.push({
+                    "Country": rarity,
+                    "Rarity": names[name]["Rarities"][rarity]
+                });
+            }
+
+            allRowsInJSON.push(row);
+        }
+
         loadTable();
     });
 
@@ -142,7 +146,8 @@
     let loadedRows: NameInfo[] = [];
     let alternatingColor: number;
     let scrollableTable: HTMLDivElement;
-    let allRows: any[] = [];    
+    let rowsToLoad: NameInfo[] = [];
+    let allRowsInJSON: NameInfo[] = [];
     const startRows = 50;
     let countriesInJSON: string[] = [];
     let jsonContents: { Names: any; Countries: string[]; };
