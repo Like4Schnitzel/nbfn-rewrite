@@ -85,25 +85,26 @@
         </div>
 
     {:else if filter.Type === "genderFilter"}
-    <div class="filterInfoBtn">
-        <img src="info.png" alt="blue circle with white i character">
-        <span class="expandableInfo">
-            This will only include entries where the gender is
-            equal to the provided one.
-        </span>
-    </div>
-    <div class="filterContent">
-        <p>Gender Filter</p>
-        <select bind:value={filter.InputValues[0]} on:change={loadTable}>
-            <option value="M">M</option>
-            <option value="1M">1M</option>
-            <option value="?M">?M</option>
-            <option value="F">F</option>
-            <option value="1F">1F</option>
-            <option value="?F">?F</option>
-            <option value="?">?</option>
-        </select>
-    </div>
+        <div class="filterInfoBtn">
+            <img src="info.png" alt="blue circle with white i character">
+            <span class="expandableInfo">
+                This will only include entries where the gender is
+                equal to the provided one.
+            </span>
+        </div>
+        <div class="filterContent">
+            <p>Gender Filter</p>
+            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+                <option value="M">M</option>
+                <option value="1M">1M</option>
+                <option value="?M">?M</option>
+                <option value="F">F</option>
+                <option value="1F">1F</option>
+                <option value="?F">?F</option>
+                <option value="?">?</option>
+            </select>
+        </div>
+    
     {/if}
 </div>
 
