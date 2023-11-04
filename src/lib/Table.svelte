@@ -68,6 +68,25 @@
                             break;
                     }
                     break;
+                case "rarityFilter":
+                    const rarityNum = getRarityNum(name.Rarities, filter.InputValues[2]);
+                    if (rarityNum === null) {
+                        orValues[filter.Type] ||= false;
+                    }
+                    else {
+                        switch (filter.InputValues[0]) {
+                            case "<":
+                                orValues[filter.Type] ||= rarityNum < filter.InputValues[1];
+                                break;
+                            case ">":
+                                orValues[filter.Type] ||= rarityNum > filter.InputValues[1];
+                                break;
+                            case "=":
+                                orValues[filter.Type] ||= rarityNum === filter.InputValues[1];
+                                break;
+                        }
+                    }
+                    break;
             }
         }
 
@@ -117,6 +136,14 @@
                         filter.InputValues[0]
                     );
                     break;
+                case "rarityFilter":
+                    if (filter.InputValues[1] !== null) {
+                        practicalFiltersInputs[i].InputValues.push(
+                            filter.InputValues[0],
+                            parseFloat(filter.InputValues[1]),
+                            filter.InputValues[2]
+                        );
+                    }
             }
         }
 
