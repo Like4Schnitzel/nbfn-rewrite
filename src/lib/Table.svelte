@@ -151,71 +151,84 @@
     let jsonContents: { Names: any; Countries: string[]; };
 </script>
 
-<div class="table">
-    <div class="headers">
+<table class="table">
+    <thead>
         <tr>
-            <th class="nameColumn nameHeader">Name</th>
-            <th class="genderColumn">Gender</th>
-            <th class="cvbColumn">CVBs</th>
-            <th class="rarityColumn rarityHeader">
-                <div id="raritySelection">
-                    Rarity in
-                    <select bind:value={selectedRarity} on:change={loadRarities} class="countrySelector">
-                        <option value="highest" selected>highest</option>
-                        {#each countriesInJSON as country}
-                            <option value={country}>{country}</option>
-                        {/each}
-                    </select>
-                </div>
-            </th>
+        <th class="nameColumn nameHeader">Name</th>
+        <th class="genderColumn">Gender</th>
+        <th class="cvbColumn">CVBs</th>
+        <th class="rarityColumn rarityHeader">
+            <div id="raritySelection">
+            Rarity in
+            <select
+                bind:value={selectedRarity}
+                on:change={loadRarities}
+                class="countrySelector"
+            >
+                <option value="highest" selected>highest</option>
+                {#each countriesInJSON as country}
+                <option value={country}>{country}</option>
+                {/each}
+            </select>
+            </div>
+        </th>
         </tr>
-    </div>
-    <div class="jsonDiv" on:scroll={loadRows} bind:this={scrollableTable}>
+    </thead>
+    <tbody class="jsonDiv" on:scroll={loadRows} bind:this={scrollableTable}>
         {#each loadedRows as row}
-            <Row data={row} rarity={selectedRarity}/>
+        <Row data={row} rarity={selectedRarity} />
         {/each}
-    </div>
-</div>
+    </tbody>
+</table>
 
 <style>
     .nameHeader {
-        text-align: left;
-        border-radius: var(--table-border-radius) 0px 0px 0px;
+      text-align: left;
+      border-radius: var(--table-border-radius) 0px 0px 0px;
     }
-
+  
     .rarityHeader {
-        position: relative;
-        border-radius: 0px var(--table-border-radius) 0px 0px;
+      position: relative;
+      border-radius: 0px var(--table-border-radius) 0px 0px;
+    }
+  
+    table {
+      table-layout: fixed;
+      background-color: #cb63d9;
+      border-radius: var(--table-border-radius);
+      flex-basis: 35%;
+      width: max-content;
     }
 
-    .table {
-        table-layout: fixed;
-        background-color: #cb63d9;
-        border-radius: var(--table-border-radius);
-        flex-basis: 35%;
+    thead {
+        display: block;
     }
 
+    tbody {
+      display: block;
+      overflow-y: overlay;
+      height: 80vh;
+      border-radius: 0 0 var(--table-border-radius) var(--table-border-radius);
+    }
+
+    tbody::-webkit-scrollbar {
+      display: none;
+    }
+  
     .countrySelector {
-        width: 52%;
+      width: 52%;
     }
-
-    .jsonDiv {
-        height: 780px;
-        overflow-y: overlay;
-        border-radius: 0px 0px var(--table-border-radius) var(--table-border-radius);
-        border: solid 1px rgb(141, 58, 182);
-        width: 100%;
-    }
-
+  
     th {
-        border-right: solid 1px black;
-        border-left: solid 1px black;
-        border-top: solid 1px black;
+      border-right: solid 1px black;
+      border-left: solid 1px black;
+      border-top: solid 1px black;
     }
-
+  
     tr {
-        display: grid;
-        grid-template-columns: 35% 15% 15%  auto;
-        margin: 0 auto;
+      display: grid;
+      grid-template-columns: 35% 15% 15% auto;
+      margin: 0 auto;
+      font-family: Arial, Helvetica, sans-serif;
     }
-</style>
+  </style>
