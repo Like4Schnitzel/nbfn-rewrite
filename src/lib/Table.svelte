@@ -20,7 +20,6 @@
         }
 
         loadedRows = [];
-        alternatingColor = 1;
         for (let i = 0; i < rowsToLoad.length && i < startRows; i++) {
             addRow();
         }
@@ -144,14 +143,12 @@
 
     let selectedRarity: string;
     let loadedRows: NameInfo[] = [];
-    let alternatingColor: number;
     let scrollableTable: HTMLDivElement;
     let rowsToLoad: NameInfo[] = [];
     let allRowsInJSON: NameInfo[] = [];
     const startRows = 50;
     let countriesInJSON: string[] = [];
     let jsonContents: { Names: any; Countries: string[]; };
-    let orBasedFiltersPresent: DictOfFilterTypes;
 </script>
 
 <div class="table">
