@@ -36,7 +36,7 @@
     {#if filter.Type === "nameContentFilter"}
         <div class="filterInfoBtn">
             <img src="info.png" alt="blue circle with white i character">
-            <span>
+            <span class="expandableInfo">
                 This will only include entries where the name matches the
                 provided regular expression. If you do not know how to use
                 regular expressions, I recommend this short & playful tutorial:
@@ -51,7 +51,7 @@
     {:else if filter.Type === "nameLengthFilter"}
         <div class="filterInfoBtn">
             <img src="info.png" alt="blue circle with white i character">
-            <span>
+            <span class="expandableInfo">
                 This will only include entries where the name is
                 longer/shorter than/equal to the provided length.
             </span>
@@ -67,3 +67,80 @@
         </div>
     {/if}
 </div>
+
+<style>
+    @import '$lib/expandableInfo.css';
+    
+    .nameFilterInput {
+        width: max-content;
+    }
+
+    .filterContent {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .filterInfoBtn:hover span {
+        display: block;
+    }
+
+    .filterInfoBtn span {
+        width: 80%;
+        top: 18px;
+        line-height: normal;
+    }
+
+    .filterInfoBtn img {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: 0px;
+        left: 0px;
+        padding: 2px;
+    }
+
+    .delBtn {
+        width: 16px;
+        height: 16px;
+    }
+
+    .greyTrashCan {
+        display: block;
+        position: absolute;
+    }
+
+    .redTrashCan {
+        position: absolute;
+        display: none;
+    }
+
+    .delBtn:hover .redTrashCan {
+        display: block;
+    }
+
+    .btns {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        top: 0;
+        right: 0;
+        padding-right: 2px;
+    }
+
+    .filter {
+        position: relative;
+        width: 100%;
+        background-color: aliceblue;
+        border: 1px solid black;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 5px;
+        margin-bottom: 5%;
+        text-align: center;
+    }
+</style>

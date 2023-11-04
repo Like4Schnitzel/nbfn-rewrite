@@ -53,7 +53,8 @@
 </tr>
 
 <style>
-    @import './tableRows.css';
+    @import '$lib/expandableInfo.css';
+    @import '$lib/tableRows.css';
     
     .rarityInfoBtn img {
         position: absolute;

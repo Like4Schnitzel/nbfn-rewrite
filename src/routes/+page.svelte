@@ -2,9 +2,9 @@
     import { goto } from '$app/navigation';
     import { filtersInputs } from '$lib/stores';
     import { target } from '$lib/index';
-    import About from './About.svelte';
-    import Table from './Table.svelte';
-    import Filters from './Filters.svelte';
+    import About from '$lib/About.svelte';
+    import Table from '$lib/Table.svelte';
+    import Filters from '$lib/Filters.svelte';
 
     const searchParams = new URLSearchParams();
     const updateSearchParams = () => {
@@ -100,92 +100,5 @@
         margin-bottom: 0px;
         margin-top: 0px;
         vertical-align: text-bottom;
-    }
-
-    .nameFilterInput {
-        width: max-content;
-    }
-
-    .filterContent {
-        height: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 1rem;
-        justify-content: center;
-    }
-
-    .filterInfoBtn:hover span {
-        display: block;
-    }
-
-    .filterInfoBtn span {
-        width: 80%;
-        top: 18px;
-        line-height: normal;
-    }
-
-    .filterInfoBtn img {
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        top: 0px;
-        left: 0px;
-        padding: 2px;
-    }
-
-    .delBtn {
-        width: 16px;
-        height: 16px;
-    }
-
-    .greyTrashCan {
-        display: block;
-        position: absolute;
-    }
-
-    .redTrashCan {
-        position: absolute;
-        display: none;
-    }
-
-    .delBtn:hover .redTrashCan {
-        display: block;
-    }
-
-    .btns {
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        top: 0;
-        right: 0;
-        padding-right: 2px;
-    }
-
-    .filter {
-        position: relative;
-        width: 100%;
-        background-color: aliceblue;
-        border: 1px solid black;
-        height: 50px;
-        line-height: 50px;
-        border-radius: 5px;
-        margin-bottom: 5%;
-        text-align: center;
-    }
-
-    :global(.expandableInfo) {
-        z-index: 9;
-        display: none;
-        position: absolute;
-        background-color: antiquewhite;
-        border-radius: 7px;
-        border: 1px solid black;
-        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    :global(.expandableInfo p) {
-        margin: 0;
     }
 </style>

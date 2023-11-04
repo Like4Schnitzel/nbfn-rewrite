@@ -11,12 +11,14 @@
     {
         allRows = [];
 
+        /*
         orBasedFiltersPresent = {} as DictOfFilterTypes;
         for (const filter of $filtersInputs) {
             if (orBasedFilters.includes(filter.Type)) {
                 orBasedFiltersPresent[filter.Type] = false;
             }
         }
+        */
 
         const names = jsonContents.Names
         for (const name in names) {
@@ -54,29 +56,30 @@
         if ($filtersInputs.length === 0) return true;
 
         let passesCheck: boolean = true;
+        let orValues = {} as DictOfFilterTypes;
 
         for (const filter of $filtersInputs) {
             switch (filter.Type) {
                 case "nameContentFilter": FilterType:
-                    orBasedFiltersPresent[filter.Type] ||= new RegExp(filter.InputValues[0]).test(name.Name);
+                    orValues[filter.Type] ||= new RegExp(filter.InputValues[0]).test(name.Name);
                     break;
                 case "nameLengthFilter": FilterType:
                     switch (filter.InputValues[0]) {
                         case "<":
-                            orBasedFiltersPresent[filter.Type] ||= name.Name.length < parseInt(filter.InputValues[1]);
+                            orValues[filter.Type] ||= name.Name.length < parseInt(filter.InputValues[1]);
                             break;
                         case ">":
-                            orBasedFiltersPresent[filter.Type] ||= name.Name.length > parseInt(filter.InputValues[1]);
+                            orValues[filter.Type] ||= name.Name.length > parseInt(filter.InputValues[1]);
                             break;
                         case "=":
-                            orBasedFiltersPresent[filter.Type] ||= name.Name.length === parseInt(filter.InputValues[1]);
+                            orValues[filter.Type] ||= name.Name.length === parseInt(filter.InputValues[1]);
                             break;
                     }
                     break;
             }
         }
 
-        for (const [key, value] of Object.entries(orBasedFiltersPresent)) {
+        for (const [key, value] of Object.entries(orValues)) {
             passesCheck &&= value;
         }
 
@@ -146,8 +149,6 @@
 </div>
 
 <style>
-    @import './tableRows.css';
-
     .nameHeader {
         text-align: left;
         border-radius: var(--table-border-radius) 0px 0px 0px;
