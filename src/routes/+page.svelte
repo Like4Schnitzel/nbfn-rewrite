@@ -22,7 +22,7 @@
     <meta content="Name Browser for Nerds" property="og:title" />
     <meta content="A Name Browser, for Nerds" property="og:description" />
     <meta content="https://www.like4schnitzel.at/NBFN/" property="og:url" />
-    <meta content="https://www.like4schnitzel.at/NBFN/static/icon.png" property="og:image" />
+    <meta content="https://www.like4schnitzel.at/NBFN/icon.png" property="og:image" />
     <meta content="#F9AEC4" data-react-helmet="true" name="theme-color" />
     <link rel="icon" href="icon.png"/>
 </head>
