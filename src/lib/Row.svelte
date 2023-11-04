@@ -31,6 +31,12 @@
 
         return "?"
     }
+
+    function rarityNumToString(rarity: number | "?") {
+        if (rarity === "?") return rarity;
+
+        return `~${rarity}%`;
+    }
 </script>
 
 <tr class="tableRow">
@@ -38,7 +44,7 @@
     <td class="genderColumn">{rowData.Gender}</td>
     <td class="cvbColumn">{rowData.CVBs}</td>
     <td class="rarityColumn">
-        ~{getSelectedRarityNum(rowData.Rarities)}%
+        {rarityNumToString(getSelectedRarityNum(rowData.Rarities))}
         <div class="rarityInfoBtn">
             <img src="info.png" alt="blue circle with a white i character">
             <span class="expandableInfo">
