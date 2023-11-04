@@ -192,7 +192,7 @@
             >
                 <option value="highest" selected>highest</option>
                 {#each countriesInJSON as country}
-                <option value={country}>{country}</option>
+                    <option value={country}>{country}</option>
                 {/each}
             </select>
             </div>
@@ -201,7 +201,7 @@
     </thead>
     <tbody class="jsonDiv" on:scroll={loadRows} bind:this={scrollableTable}>
         {#each loadedRows as row}
-        <Row data={row} rarity={selectedRarity} />
+            <Row data={row} rarity={selectedRarity} />
         {/each}
     </tbody>
 </table>
