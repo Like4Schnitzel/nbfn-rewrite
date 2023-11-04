@@ -140,7 +140,6 @@
         margin-left: 10%;
         margin-right: 5%;
         color: var(--about-text-color);
-        font-family: Arial, Helvetica, sans-serif;
     }
 
     img.icon {

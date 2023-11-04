@@ -50,6 +50,7 @@
         background-repeat: no-repeat;
         background-attachment: fixed;
         background-image: linear-gradient(#6c2f88, #4e2f73);
+        font-family: Arial, Helvetica, sans-serif;
     }
 
     .title {

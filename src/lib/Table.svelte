@@ -217,6 +217,5 @@
         display: grid;
         grid-template-columns: 35% 15% 15%  auto;
         margin: 0 auto;
-        font-family: Arial, Helvetica, sans-serif;
     }
 </style>
