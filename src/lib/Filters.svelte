@@ -34,12 +34,17 @@
     </div>
     <select class="addFilter" bind:this={filterSelector} on:change={addFilter}>
         <option value="std" selected>Add Filter</option>
-        <optgroup label="Filters">
+        <optgroup label="OR-Based Filters">
             <option value="nameContentFilter">Name Content</option>
             <option value="nameLengthFilter">Name Length</option>
             <option value="genderFilter">Gender</option>
             <option value="CVBFilter">CVB Count</option>
             <option value="rarityFilter">Rarity</option>
+        </optgroup>
+        <optgroup label="AND-Based Filters">
+            <option value="nameLengthAndFilter">Name Length</option>
+            <option value="CVBAndFilter">CVB Count</option>
+            <option value="rarityAndFilter">Rarity</option>
         </optgroup>
         <optgroup label="Sorting">
             <option value="nameSort">Name</option>

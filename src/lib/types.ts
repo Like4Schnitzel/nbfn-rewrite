@@ -25,6 +25,9 @@ export type FilterType = "nameContentFilter" |
                          "genderFilter" |
                          "CVBFilter" |
                          "rarityFilter" |
+                        "nameLengthAndFilter" |
+                        "CVBAndFilter" |
+                        "rarityAndFilter" |
                          "nameSort" |
                          "cvbSort" |
                          "raritySort";
