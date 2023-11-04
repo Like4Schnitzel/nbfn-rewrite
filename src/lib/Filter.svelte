@@ -44,7 +44,7 @@
             </span>
         </div>
         <div class="filterContent">
-            <p>Name OR-Filter:</p>
+            <p>Name Filter:</p>
             <input class="inputField" type="text" bind:value={filter.InputValues[0]} on:input={loadTable}>
         </div>
 
@@ -75,6 +75,7 @@
             </span>
         </div>
         <div class="filterContent">
+            <p>CVB Count OR-Filter</p>
             <select bind:value={filter.InputValues[0]} on:change={loadTable}>
                 <option value="<">&lt;</option>
                 <option value=">">&gt;</option>
