@@ -58,7 +58,7 @@
         </div>
         <div class="filterContent">
             <p>Name Length OR-Filter:</p>
-            <select bind:value={filter.InputValues[0]}>
+            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
                 <option value="<">&lt;</option>
                 <option value=">">&gt;</option>
                 <option value="=">=</option>
@@ -75,7 +75,7 @@
             </span>
         </div>
         <div class="filterContent">
-            <select bind:value={filter.InputValues[0]}>
+            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
                 <option value="<">&lt;</option>
                 <option value=">">&gt;</option>
                 <option value="=">=</option>
