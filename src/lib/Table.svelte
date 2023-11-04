@@ -2,7 +2,7 @@
     import type { NameInfo, DictOfFilterTypes, PracticalFilterContent, Gender } from '$lib/types';
     import { onMount } from 'svelte';
     import { target } from '$lib/index';
-    import { filtersInputs } from '$lib/stores';
+    import { filtersInputs, countriesInJSON } from '$lib/stores';
     import Row from './Row.svelte';
 
     target.addEventListener('loadTable', () => {loadTable()});
@@ -141,9 +141,8 @@
         const countries: string[] = jsonContents.Countries;
 
         for (const country of countries) {
-            countriesInJSON.push(country);
+            countriesInJSON.add(country);
         }
-        countriesInJSON = countriesInJSON;
 
         const names = jsonContents.Names;
         for (const name in names) {
@@ -172,7 +171,6 @@
     let rowsToLoad: NameInfo[] = [];
     let allRowsInJSON: NameInfo[] = [];
     const startRows = 50;
-    let countriesInJSON: string[] = [];
     let jsonContents: { Names: any; Countries: string[]; };
 </script>
 
@@ -191,7 +189,7 @@
                 class="countrySelector"
             >
                 <option value="highest" selected>highest</option>
-                {#each countriesInJSON as country}
+                {#each $countriesInJSON as country}
                     <option value={country}>{country}</option>
                 {/each}
             </select>

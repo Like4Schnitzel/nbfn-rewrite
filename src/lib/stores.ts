@@ -21,4 +21,17 @@ function createFiltersList() {
     }
 }
 
+function createCountriesList() {
+    const { subscribe, set, update } = writable<string[]>([]);
+
+    return {
+        subscribe,
+        add: (country: string) => update((cl) => {
+            cl.push(country);
+            return cl;
+        })
+    }
+}
+
 export const filtersInputs = createFiltersList();
+export const countriesInJSON = createCountriesList();
