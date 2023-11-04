@@ -90,9 +90,15 @@
 
             switch (filter.Type) {
                 case "nameContentFilter": FilterType:
-                    practicalFiltersInputs[i].InputValues.push(
-                        new RegExp(filter.InputValues[0])
-                    );
+                    try {
+                        practicalFiltersInputs[i].InputValues.push(
+                            new RegExp(filter.InputValues[0])
+                        );
+                    } catch {
+                        practicalFiltersInputs[i].InputValues.push(
+                            new RegExp("")
+                        );
+                    }
                     break;
                 case "nameLengthFilter": FilterType:
                     practicalFiltersInputs[i].InputValues.push(
