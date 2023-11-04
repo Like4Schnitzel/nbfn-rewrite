@@ -100,12 +100,14 @@
                     break;
                 case "nameLengthFilter":
                 case "CVBFilter":
-                    practicalFiltersInputs[i].InputValues.push(
-                        filter.InputValues[0]
-                    );
-                    practicalFiltersInputs[i].InputValues.push(
-                        parseInt(filter.InputValues[1])
-                    );
+                    if (filter.InputValues[1] !== null) {
+                        practicalFiltersInputs[i].InputValues.push(
+                            filter.InputValues[0]
+                        );
+                        practicalFiltersInputs[i].InputValues.push(
+                            parseInt(filter.InputValues[1])
+                        );
+                    }
                     break;
             }
         }
