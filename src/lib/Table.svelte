@@ -191,8 +191,6 @@
     .table {
         table-layout: fixed;
         background-color: #cb63d9;
-        margin-left: auto;
-        margin-right: auto;
         border-radius: var(--table-border-radius);
         flex-basis: 35%;
     }
@@ -203,8 +201,7 @@
 
     .jsonDiv {
         height: 780px;
-        overflow-y: auto;
-        overflow: overlay;
+        overflow-y: overlay;
         border-radius: 0px 0px var(--table-border-radius) var(--table-border-radius);
         border: solid 1px rgb(141, 58, 182);
         width: 100%;
