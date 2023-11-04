@@ -45,7 +45,7 @@
         </div>
         <div class="filterContent">
             <p>Name OR-Filter:</p>
-            <input class="nameFilterInput" type="text" bind:value={filter.InputValues[0]} on:input={loadTable}>
+            <input class="inputField" type="text" bind:value={filter.InputValues[0]} on:input={loadTable}>
         </div>
 
     {:else if filter.Type === "nameLengthFilter"}
@@ -63,7 +63,7 @@
                 <option value=">">&gt;</option>
                 <option value="=">=</option>
             </select>
-            <input class="nameLengthInput" type="number" min="0" bind:value={filter.InputValues[1]} on:input={loadTable}>
+            <input class="inputField numInput" type="number" min="0" bind:value={filter.InputValues[1]} on:input={loadTable}>
         </div>
 
     {:else if filter.Type === "CVBFilter"}
@@ -80,7 +80,7 @@
                 <option value=">">&gt;</option>
                 <option value="=">=</option>
             </select>
-            <input class="cvbCountInput" type="number" min="0" bind:value={filter.InputValues[1]} on:input={loadTable}>
+            <input class="inputField numInput" type="number" min="0" bind:value={filter.InputValues[1]} on:input={loadTable}>
         </div>
     {/if}
 </div>
@@ -88,8 +88,12 @@
 <style>
     @import '$lib/expandableInfo.css';
     
-    .nameFilterInput {
+    .inputField {
         width: max-content;
+    }
+
+    .numInput {
+        text-align: right;
     }
 
     .filterContent {
