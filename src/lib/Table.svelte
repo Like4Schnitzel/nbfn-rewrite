@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { NameInfo, DictOfFilterTypes, PracticalFilterContent, Gender } from '$lib/types';
+    import type { NameInfo, DictOfFilterTypes, PracticalFilterContent, RarityInfo } from '$lib/types';
     import { onMount } from 'svelte';
     import { target } from '$lib/index';
     import { filtersInputs, countriesInJSON } from '$lib/stores';
@@ -123,6 +123,31 @@
         return practicalFiltersInputs;
     }
 
+    function maxRarity(rarities: RarityInfo[]) {
+        let max = 0;
+        for (const rarityInfo of rarities) {
+            let rarityNum = rarityInfo.Rarity;
+
+            if (rarityNum > max) {
+                max = rarityInfo.Rarity;
+            }
+        }
+
+        return max;
+    }
+
+    function getRarityNum(rarites: RarityInfo[], country: string) {
+        if (country === "highest") return maxRarity(rarites);
+
+        for (let rarityInfo of rarites) {
+            if (rarityInfo.Country === country) {
+                return rarityInfo.Rarity;
+            }
+        }
+
+        return null;
+    }
+
     const loadRarities = () => {
         loadedRows = loadedRows;
     }
@@ -199,7 +224,7 @@
     </thead>
     <tbody class="jsonDiv" on:scroll={loadRows} bind:this={scrollableTable}>
         {#each loadedRows as row}
-            <Row data={row} rarity={selectedRarity} />
+            <Row data={row} rarity={getRarityNum(row.Rarities, selectedRarity)} />
         {/each}
     </tbody>
 </table>

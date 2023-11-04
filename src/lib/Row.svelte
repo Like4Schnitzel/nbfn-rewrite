@@ -2,38 +2,13 @@
     import type { RarityInfo, NameInfo } from "$lib/types";
 
     let rowData: NameInfo;
-    let selectedRarity: string;
+    let selectedRarity: number | null;
 
     export { rowData as data };
     export { selectedRarity as rarity };
 
-    function maxRarity(rarities: RarityInfo[]) {
-        let max = 0;
-        for (const rarityInfo of rarities) {
-            let rarityNum = rarityInfo.Rarity;
-
-            if (rarityNum > max) {
-                max = rarityInfo.Rarity;
-            }
-        }
-
-        return max;
-    }
-
-    function getSelectedRarityNum(rarites: RarityInfo[]) {
-        if (selectedRarity === "highest") return maxRarity(rarites);
-
-        for (let rarityInfo of rarites) {
-            if (rarityInfo.Country === selectedRarity) {
-                return rarityInfo.Rarity;
-            }
-        }
-
-        return "?"
-    }
-
-    function rarityNumToString(rarity: number | "?") {
-        if (rarity === "?") return rarity;
+    function rarityNumToString(rarity: number | null) {
+        if (rarity === null) return "?";
 
         return `~${rarity}%`;
     }
@@ -44,7 +19,7 @@
     <td class="genderColumn">{rowData.Gender}</td>
     <td class="cvbColumn">{rowData.CVBs}</td>
     <td class="rarityColumn">
-        {rarityNumToString(getSelectedRarityNum(rowData.Rarities))}
+        {rarityNumToString(selectedRarity)}
         <div class="rarityInfoBtn">
             <img src="info.png" alt="blue circle with a white i character">
             <span class="expandableInfo">
