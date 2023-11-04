@@ -15,10 +15,12 @@ export type RarityInfo = {
 
 export type NameInfo = {
     Name: string,
-    Gender: "M" | "F" | "1M" | "1F" | "?M" | "?F" | "?",
+    Gender: Gender,
     CVBs: number,
     Rarities: RarityInfo[]
 }
+
+export type Gender = "M" | "F" | "1M" | "1F" | "?M" | "?F" | "?";
 
 export type FilterType = "nameContentFilter" |
                          "nameLengthFilter" |
