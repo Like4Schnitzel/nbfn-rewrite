@@ -66,16 +66,6 @@
         display: inline;
     }
 
-    .title h1 {
-        font-family: sans-serif;
-        position: relative;
-        display: inline;
-        padding-left: 8px;
-        margin-bottom: 0px;
-        margin-top: 0px;
-        vertical-align: text-bottom;
-    }
-
     .tableSpace {
         display: flex;
         flex-direction: column;
