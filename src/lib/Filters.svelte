@@ -52,7 +52,6 @@
             <option value="raritySort">Rarity</option>
         </optgroup>
     </select>
-    <button class="applyFilters">Apply Filters</button>
 </div>
 
 <style>
@@ -69,27 +68,5 @@
         margin-bottom: 5%;
         width: fit-content;
         padding: 2%;
-    }
-
-    .applyFilters {
-        margin-left: auto;
-        margin-right: auto;
-        width: fit-content;
-        padding-left: 6%;
-        padding-right: 6%;
-        padding-top: 2%;
-        padding-bottom: 2%;
-        border-radius: 5px;
-        background-color: rgb(244, 135, 204);
-        border: solid 1px black;
-        cursor: pointer;
-    }
-
-    .applyFilters:hover {
-        background-color: rgb(243, 118, 197);
-    }
-
-    .applyFilters:active {
-        background-color: rgb(237, 96, 185);
     }
 </style>
