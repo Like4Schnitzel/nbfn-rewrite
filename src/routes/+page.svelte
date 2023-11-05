@@ -78,7 +78,9 @@
 
     .tableSpace {
         display: flex;
+        flex-direction: column;
         justify-content: space-evenly;
+        gap: 2rem;
     }
 
     .title {
@@ -101,5 +103,13 @@
         margin-bottom: 0px;
         margin-top: 0px;
         vertical-align: text-bottom;
+    }
+
+
+    @media (min-width: 1210px) {
+        .tableSpace {
+            flex-direction: row;
+            gap: 0;
+        }
     }
 </style>

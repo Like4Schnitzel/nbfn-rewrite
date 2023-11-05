@@ -227,7 +227,9 @@
 
     .filter {
         position: relative;
-        width: 100%;
+        width: 70%;
+        margin-right: auto;
+        margin-left: auto;
         background-color: aliceblue;
         border: 1px solid black;
         height: 50px;
@@ -235,5 +237,13 @@
         border-radius: 5px;
         margin-bottom: 5%;
         text-align: center;
+    }
+
+    @media (min-width: 1210px) {
+        .filter {
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
     }
 </style>

@@ -124,6 +124,9 @@
         background-color: #9569a9;
         border-radius: 15px;
         border: 1px solid black;
+        width: 80%;
+        margin-right: auto;
+        margin-left: auto;
     }
 
     .about h1 {

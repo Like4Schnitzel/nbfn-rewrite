@@ -226,7 +226,7 @@
     let jsonContents: { Names: any; Countries: string[]; };
 </script>
 
-<table class="table">
+<table>
     <thead>
         <tr>
         <th class="nameColumn nameHeader">Name</th>
@@ -271,6 +271,10 @@
         table-layout: fixed;
         flex-basis: 35%;
         width: max-content;
+        margin-right: auto;
+        margin-left: auto;
+        width: 70%;
+        order: 1;
     }
 
     thead {
@@ -306,5 +310,15 @@
         grid-template-columns: 35% 15% 15% auto;
         margin: 0 auto;
         font-family: Arial, Helvetica, sans-serif;
+    }
+
+    @media (min-width: 1210px) {
+        table {
+            table-layout: fixed;
+            flex-basis: 35%;
+            width: max-content;
+            order: 0;
+            margin: 0;
+        }
     }
   </style>

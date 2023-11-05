@@ -66,6 +66,12 @@
         margin-left: auto;
         margin-right: auto;
         width: fit-content;
-        padding: 2%;
+        padding: 1%;
+    }
+
+    @media (min-width: 1210px) {
+        .addFilter {
+            padding: 2%;
+        }
     }
 </style>
