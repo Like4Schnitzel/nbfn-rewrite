@@ -93,6 +93,7 @@
         margin-bottom: 0px;
         margin-top: 0px;
         vertical-align: text-bottom;
+        font-size: clamp(30px, 3vw, 40px);
     }
 
 
