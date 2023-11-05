@@ -65,7 +65,6 @@
         text-align: center;
         margin-left: auto;
         margin-right: auto;
-        margin-bottom: 5%;
         width: fit-content;
         padding: 2%;
     }
