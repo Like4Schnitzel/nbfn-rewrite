@@ -227,7 +227,7 @@
 
     .filter {
         position: relative;
-        width: 70%;
+        width: 90%;
         margin-right: auto;
         margin-left: auto;
         background-color: aliceblue;

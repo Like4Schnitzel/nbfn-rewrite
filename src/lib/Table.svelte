@@ -273,7 +273,7 @@
         width: max-content;
         margin-right: auto;
         margin-left: auto;
-        width: 70%;
+        width: 90%;
         order: 1;
     }
 
