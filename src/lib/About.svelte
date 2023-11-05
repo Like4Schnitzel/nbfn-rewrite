@@ -153,4 +153,11 @@
         margin-bottom: auto;
         transition: all 0.2s;
     }
+
+    @media (min-width: 1210px) {
+        .about {
+            width: auto;
+            margin: 0;
+        }
+    }
 </style>
