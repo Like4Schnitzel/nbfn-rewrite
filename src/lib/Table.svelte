@@ -87,6 +87,21 @@
                         }
                     }
                     break;
+                case "nameLengthAndFilter":
+                    switch (filter.InputValues[0]) {
+                        case "<":
+                            if(!(name.Name.length < filter.InputValues[1]))
+                                return false;
+                            break;
+                        case ">":
+                            if (!(name.Name.length > filter.InputValues[1]))
+                                return false;
+                            break;
+                        case "=":
+                            if (!(name.Name.length === filter.InputValues[1]))
+                                return false;
+                            break;
+                    }
             }
         }
 
@@ -121,6 +136,7 @@
                     }
                     break;
                 case "nameLengthFilter":
+                case "nameLengthAndFilter":
                 case "CVBFilter":
                     if (filter.InputValues[1] !== null) {
                         practicalFiltersInputs[i].InputValues.push(

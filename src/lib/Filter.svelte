@@ -48,16 +48,25 @@
             <input class="inputField" type="text" bind:value={filter.InputValues[0]} on:input={loadTable}>
         </div>
 
-    {:else if filter.Type === "nameLengthFilter"}
+    {:else if filter.Type === "nameLengthFilter" || filter.Type === "nameLengthAndFilter"}
         <div class="filterInfoBtn">
             <img src="info.png" alt="blue circle with white i character">
             <span class="expandableInfo">
-                This will only include entries where the name length is
-                longer/shorter than/equal to the provided one.
+                {#if filter.Type === "nameLengthFilter"}
+                    This will only include entries where the name length is
+                    longer/shorter than/equal to the provided one.
+                {:else}
+                    This will exclude all entries where the name length is
+                    longer/shorter than/equal to the provided one.
+                {/if}
             </span>
         </div>
         <div class="filterContent">
-            <p>Name Length OR-Filter:</p>
+            {#if filter.Type === "nameLengthFilter"}
+                <p>Name Length OR-Filter:</p>
+            {:else}
+                <p>Name Length AND-Filter:</p>
+            {/if}
             <select bind:value={filter.InputValues[0]} on:change={loadTable}>
                 <option value="<">&lt;</option>
                 <option value=">">&gt;</option>
