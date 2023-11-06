@@ -176,13 +176,13 @@
     function filtersInputsStringsToValues() {
         for (let i = 0; i < $filtersInputs.length; i++) {
             const filter = $filtersInputs[i];
-            practicalFiltersInputs.push({
-                Type: filter.Type,
-                InputValues: []
-            });
 
             switch (filter.Type) {
                 case "nameContentFilter":
+                    practicalFiltersInputs.push({
+                        Type: filter.Type,
+                        InputValues: []
+                    });
                     try {
                         practicalFiltersInputs[i].InputValues.push(
                             new RegExp(filter.InputValues[0])
@@ -198,27 +198,29 @@
                 case "CVBFilter":
                 case "CVBAndFilter":
                     if (filter.InputValues[1] !== null) {
-                        practicalFiltersInputs[i].InputValues.push(
-                            filter.InputValues[0]
-                        );
-                        practicalFiltersInputs[i].InputValues.push(
-                            parseInt(filter.InputValues[1])
-                        );
+                        practicalFiltersInputs.push({
+                            Type: filter.Type,
+                            InputValues: filter.InputValues
+                        });
                     }
                     break;
                 case "genderFilter":
-                    practicalFiltersInputs[i].InputValues.push(
-                        filter.InputValues[0]
-                    );
+                    practicalFiltersInputs.push({
+                        Type: filter.Type,
+                        InputValues: filter.InputValues
+                    });
                     break;
                 case "rarityFilter":
                 case "rarityAndFilter":
                     if (filter.InputValues[1] !== null) {
-                        practicalFiltersInputs[i].InputValues.push(
-                            filter.InputValues[0],
-                            parseFloat(filter.InputValues[1]),
-                            filter.InputValues[2]
-                        );
+                        practicalFiltersInputs.push({
+                            Type: filter.Type,
+                            InputValues: [
+                                filter.InputValues[0],
+                                parseFloat(filter.InputValues[1]),
+                                filter.InputValues[2]
+                            ]
+                        });
                     }
                     break;
             }
