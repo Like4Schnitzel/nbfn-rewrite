@@ -184,19 +184,21 @@
 
             switch (filter.Type) {
                 case "nameContentFilter":
-                    practicalFiltersInputs.push({
+                    const pfc: PracticalFilterContent = {
                         Type: filter.Type,
                         InputValues: []
-                    });
-                    try {
-                        practicalFiltersInputs[i].InputValues.push(
-                            new RegExp(filter.InputValues[0])
-                        );
-                    } catch {
-                        practicalFiltersInputs[i].InputValues.push(
-                            new RegExp("")
-                        );
                     }
+                    try {
+                        pfc.InputValues = [
+                            new RegExp(filter.InputValues[0])
+                        ];
+                    } catch {
+                        pfc.InputValues = [
+                            new RegExp("")
+                        ];
+                    }
+
+                    practicalFiltersInputs.push(pfc);
                     break;
                 case "nameLengthFilter":
                 case "nameLengthAndFilter":
