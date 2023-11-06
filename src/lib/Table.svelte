@@ -223,6 +223,13 @@
                         });
                     }
                     break;
+                
+                case "nameContentSort":
+                    sortingInputs.push({
+                        Type: filter.Type,
+                        InputValues: [filter.InputValues[0] === "ascending"]
+                    });
+                    break;
             }
         }
     }
