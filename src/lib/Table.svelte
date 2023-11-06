@@ -239,6 +239,16 @@
                         InputValues: [filter.InputValues[0] === "descending"]
                     });
                     break;
+                
+                case "raritySort":
+                    sortingInputs.push({
+                        Type: filter.Type,
+                        InputValues: [
+                            filter.InputValues[0] === "descending",
+                            filter.InputValues[1]
+                        ]
+                    });
+                    break;
             }
         }
     }
@@ -265,6 +275,13 @@
 
             case "cvbSort": {
                 rowsToLoad.sort((a, b) => direction * comparisonToNumber(a.CVBs, b.CVBs));
+            }
+
+            case "raritySort": {
+                rowsToLoad.sort((a, b) => direction * comparisonToNumber(
+                    getRarityNum(a.Rarities, filter.InputValues[1]),
+                    getRarityNum(b.Rarities, filter.InputValues[1])
+                ));
             }
         }
     }

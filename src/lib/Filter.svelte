@@ -204,6 +204,28 @@
                 <option value="descending">Descending</option>
             </select>
         </div>
+    
+    {:else if filter.Type === "raritySort"}
+        <div class="filterInfoBtn">
+            <img src="info.png" alt="blue circle with white i character">
+            <span class="expandableInfo">
+                This will sort names by rarity.
+            </span>
+        </div>
+        <div class="filterContent">
+            <p>Rarity Sort:</p>
+            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+                <option value="ascending">Ascending</option>
+                <option value="descending">Descending</option>
+            </select>
+            <p>in</p>
+            <select class="countrySelect" bind:value={filter.InputValues[1]} on:change={loadTable}>
+                <option value="highest" selected>highest</option>
+                {#each $countriesInJSON as country}
+                    <option value={country}>{country}</option>
+                {/each}
+            </select>
+        </div>
     {/if}
 </div>
 
