@@ -174,6 +174,21 @@
                 <option value="descending">Descending</option>
             </select>
         </div>
+    
+    {:else if filter.Type === "nameLengthSort"}
+        <div class="filterInfoBtn">
+            <img src="info.png" alt="blue circle with white i character">
+            <span class="expandableInfo">
+                This will sort names by length.
+            </span>
+        </div>
+        <div class="filterContent">
+            <p>Name Length Sort:</p>
+            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+                <option value="ascending">Ascending</option>
+                <option value="descending">Descending</option>
+            </select>
+        </div>
     {/if}
 </div>
 

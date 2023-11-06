@@ -232,6 +232,7 @@
                     break;
                 
                 case "nameContentSort":
+                case "nameLengthSort":
                     sortingInputs.push({
                         Type: filter.Type,
                         InputValues: [filter.InputValues[0] === "descending"]
@@ -240,14 +241,25 @@
             }
         }
     }
+
+    function comparisonToNumber(a: any, b: any) {
+        if (a > b)
+            return 1;
+        if (a < b)
+            return -1;
+        return 0;
+    }
     
     function sortRows(filter: PracticalFilterContent) {
         const direction = filter.InputValues[0] ? -1 : 1;
 
-        // a > b = 1; a < b = -1; a === b = 0;
         switch (filter.Type) {
             case "nameContentSort": {
-                rowsToLoad.sort((a, b) => direction * (a.Name > b.Name ? 1 : (a.Name < b.Name ? -1 : 0)));
+                rowsToLoad.sort((a, b) => direction * comparisonToNumber(a.Name, b.Name));
+            }
+
+            case "nameLengthSort": {
+                rowsToLoad.sort((a, b) => direction * comparisonToNumber(a.Name.length, b.Name.length))
             }
         }
     }
