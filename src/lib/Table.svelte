@@ -241,6 +241,10 @@
         }
     }
 
+    function extractName(row: NameInfo) {
+        return row.Name;
+    }
+    
     function sortRows(rows: NameInfo[], filter: PracticalFilterContent) {
         switch (filter.Type) {
             case "nameContentSort": {
@@ -249,10 +253,6 @@
         }
 
         return [];
-    }
-
-    function extractName(row: NameInfo) {
-        return row.Name;
     }
 
     function mergeSort(input: NameInfo[], extractVal: (r: NameInfo) => any, reverse: boolean): NameInfo[] {
