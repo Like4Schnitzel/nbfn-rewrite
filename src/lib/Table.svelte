@@ -233,6 +233,7 @@
                 
                 case "nameContentSort":
                 case "nameLengthSort":
+                case "cvbSort":
                     sortingInputs.push({
                         Type: filter.Type,
                         InputValues: [filter.InputValues[0] === "descending"]
@@ -259,7 +260,11 @@
             }
 
             case "nameLengthSort": {
-                rowsToLoad.sort((a, b) => direction * comparisonToNumber(a.Name.length, b.Name.length))
+                rowsToLoad.sort((a, b) => direction * comparisonToNumber(a.Name.length, b.Name.length));
+            }
+
+            case "cvbSort": {
+                rowsToLoad.sort((a, b) => direction * comparisonToNumber(a.CVBs, b.CVBs));
             }
         }
     }
