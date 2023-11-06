@@ -2,7 +2,7 @@
     import type { NameInfo, DictOfFilterTypes, PracticalFilterContent, RarityInfo } from '$lib/types';
     import { onMount } from 'svelte';
     import { target } from '$lib/index';
-    import { filtersInputs, countriesInJSON } from '$lib/stores';
+    import { filtersInputs, countriesInJSON, displayedRarity } from '$lib/stores';
     import Row from './Row.svelte';
 
     target.addEventListener('loadTable', () => {loadTable()});
@@ -187,6 +187,10 @@
         }
     }
 
+    const updateSearchParams = () => {
+        target.dispatchEvent(new CustomEvent("updateSearchParams"));
+    }
+
     onMount(async () => {
         const res = await fetch('nam_dict.json');
         jsonContents = await res.json();
@@ -217,7 +221,6 @@
         loadTable();
     });
 
-    let selectedRarity: string;
     let loadedRows: NameInfo[] = [];
     let scrollableTable: HTMLDivElement;
     let rowsToLoad: NameInfo[] = [];
@@ -236,8 +239,8 @@
             <div id="raritySelection">
             Rarity in
             <select
-                bind:value={selectedRarity}
-                on:change={loadRarities}
+                bind:value={$displayedRarity}
+                on:change={() => {loadRarities(); updateSearchParams()}}
                 class="countrySelector"
             >
                 <option value="highest" selected>highest</option>
@@ -251,7 +254,7 @@
     </thead>
     <tbody class="jsonDiv" on:scroll={loadRows} bind:this={scrollableTable}>
         {#each loadedRows as row}
-            <Row data={row} rarity={getRarityNum(row.Rarities, selectedRarity)} />
+            <Row data={row} rarity={getRarityNum(row.Rarities, $displayedRarity)} />
         {/each}
     </tbody>
 </table>

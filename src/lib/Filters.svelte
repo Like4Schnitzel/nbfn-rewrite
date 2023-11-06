@@ -1,15 +1,9 @@
 <script lang="ts">
     import { target } from "$lib/index";
-    import { page } from "$app/stores";
-    import { onMount } from "svelte";
     import { filtersInputs } from "$lib/stores";
     import Filter from "./Filter.svelte";
 
     let filterSelector: HTMLSelectElement;
-
-    onMount(() => {
-        filtersInputs.set(JSON.parse($page.url.searchParams.get('filters') || "[]"));
-    });
 
     const addFilter = () => {
         filtersInputs.add({

@@ -33,5 +33,17 @@ function createCountriesList() {
     }
 }
 
+function createDisplayedRarity() {
+    const { subscribe, set, update } = writable<string>("highest");
+
+    return {
+        subscribe,
+        set: (rarity: string) => update(() => {
+            return rarity;
+        })
+    }
+}
+
 export const filtersInputs = createFiltersList();
 export const countriesInJSON = createCountriesList();
+export const displayedRarity = createDisplayedRarity();

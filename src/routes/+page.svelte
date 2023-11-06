@@ -1,19 +1,27 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { filtersInputs } from '$lib/stores';
+    import { filtersInputs, displayedRarity } from '$lib/stores';
     import { target } from '$lib/index';
     import About from '$lib/About.svelte';
     import Table from '$lib/Table.svelte';
     import Filters from '$lib/Filters.svelte';
+    import { onMount } from 'svelte';
+    import { page } from '$app/stores';
 
     const searchParams = new URLSearchParams();
     const updateSearchParams = () => {
         searchParams.set("filters", JSON.stringify($filtersInputs));
+        searchParams.set("displayedRarity", JSON.stringify($displayedRarity));
         goto(`?${searchParams.toString()}`);
     }
 
     target.addEventListener("updateSearchParams", () => {
         updateSearchParams();
+    });
+
+    onMount(() => {
+        filtersInputs.set(JSON.parse($page.url.searchParams.get('filters') || "[]"));
+        displayedRarity.set(JSON.parse($page.url.searchParams.get('displayedRarity') || "highest"))
     });
 </script>
 
