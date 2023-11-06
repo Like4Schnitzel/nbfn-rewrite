@@ -75,16 +75,25 @@
             <input class="inputField numInput" type="number" min="0" bind:value={filter.InputValues[1]} on:input={loadTable}>
         </div>
 
-    {:else if filter.Type === "CVBFilter"}
+    {:else if filter.Type === "CVBFilter" || filter.Type === "CVBAndFilter"}
         <div class="filterInfoBtn">
             <img src="info.png" alt="blue circle with white i character">
             <span class="expandableInfo">
-                This will only include entries where the CVB count is
-                longer/shorter than/equal to the provided one.
+                {#if filter.Type === "CVBFilter"}
+                    This will only include entries where the CVB count is
+                    longer/shorter than/equal to the provided one.
+                {:else}
+                    This will exclude all entries where the CVB count is
+                    longer/shorter than/equal to the provided one.
+                {/if}
             </span>
         </div>
         <div class="filterContent">
-            <p>CVB Count OR-Filter</p>
+            {#if filter.Type === "CVBFilter"}
+                <p>CVB Count OR-Filter</p>
+            {:else}
+                <p>CVB Count AND-Filter</p>
+            {/if}
             <select bind:value={filter.InputValues[0]} on:change={loadTable}>
                 <option value="<">&lt;</option>
                 <option value=">">&gt;</option>

@@ -101,6 +101,23 @@
                                 return false;
                             break;
                     }
+                    break;
+                case "CVBAndFilter":
+                    switch (filter.InputValues[0]) {
+                        case "<":
+                            if (!(name.CVBs < filter.InputValues[1]))
+                                return false;
+                            break;
+                        case ">":
+                            if (!(name.CVBs > filter.InputValues[1]))
+                                return false;
+                            break;
+                        case "=":
+                            if (!(name.CVBs === filter.InputValues[1]))
+                                return false;
+                            break;
+                    }
+                    break;
             }
         }
 
@@ -137,6 +154,7 @@
                 case "nameLengthFilter":
                 case "nameLengthAndFilter":
                 case "CVBFilter":
+                case "CVBAndFilter":
                     if (filter.InputValues[1] !== null) {
                         practicalFiltersInputs[i].InputValues.push(
                             filter.InputValues[0]
