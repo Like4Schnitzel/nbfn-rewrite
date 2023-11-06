@@ -17,6 +17,12 @@ function createFiltersList() {
         set: (val: FilterContent[]) => update((fc) => {
             fc = val;
             return fc;
+        }),
+        swap: (index1: number, index2: number) => update((fc) => {
+            const temp = fc[index1];
+            fc[index1] = fc[index2];
+            fc[index2] = temp;
+            return fc;
         })
     }
 }

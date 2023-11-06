@@ -19,6 +19,14 @@
         updateSearchParams();
         loadTable();
     }
+
+    const moveFilterUp = () => {
+        filtersInputs.swap(index, index-1);
+    }
+
+    const moveFilterDown = () => {
+        filtersInputs.swap(index, index+1);
+    }
 </script>
 
 <div class="filter" on:change={updateSearchParams}>
@@ -26,10 +34,28 @@
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-mouse-events-have-key-events -->
         <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-        <div class="delBtn">
-            <img class="greyTrashCan" src="trashcan.png" alt="trashcan">
-            <img class="redTrashCan" src="trashcan_red.png"
-                title="Remove Filter" on:click={()=>{deleteFilter()}} alt="red trashcan">
+        <div class="btn">
+            <img class="defaultImg" src="trashcan.png" alt="trashcan">
+            <img class="overlayImg" src="trashcan_red.png"
+                title="Remove Filter" on:click={deleteFilter} alt="red trashcan">
+        </div>
+        <div class="btn">
+            {#if index > 0}
+                <img class="defaultImg" src="up_arrow.png" alt="upwards arrow">
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+                <img class="overlayImg" src="up_arrow_green.png"
+                    title="Move Filter up" on:click={moveFilterUp} alt="green upwards arrow">
+            {/if}
+        </div>
+        <div class="btn">
+            {#if index < $filtersInputs.length-1}
+                <img class="defaultImg" src="down_arrow.png" alt="downwards arrow">
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+                <img class="overlayImg" src="down_arrow_green.png"
+                    title="Move Filter down" on:click={moveFilterDown} alt="green downwards arrow">
+            {/if}
         </div>
     </div>
 
@@ -290,22 +316,27 @@
         padding: 2px;
     }
 
-    .delBtn {
+    .btn {
         width: 16px;
         height: 16px;
     }
 
-    .greyTrashCan {
+    .overlayImg,
+    .defaultImg {
         display: block;
         position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        text-align: center;
     }
 
-    .redTrashCan {
-        position: absolute;
+    .overlayImg {
         display: none;
     }
 
-    .delBtn:hover .redTrashCan {
+    .btn:hover .overlayImg {
         display: block;
     }
 
@@ -317,6 +348,7 @@
         top: 0;
         right: 0;
         padding-right: 2px;
+        gap: 2px;
     }
 
     .filter {
