@@ -23,7 +23,7 @@
 
         // go backwards because of priority stuff
         for (let i = sortingInputs.length-1; i >= 0; i--) {
-            rowsToLoad = sortRows(rowsToLoad, sortingInputs[i])
+            sortRows(sortingInputs[i])
         }
 
         loadedRows = [];
@@ -240,48 +240,16 @@
             }
         }
     }
-
-    function extractName(row: NameInfo) {
-        return row.Name;
-    }
     
-    function sortRows(rows: NameInfo[], filter: PracticalFilterContent) {
+    function sortRows(filter: PracticalFilterContent) {
+        const direction = filter.InputValues[0] ? -1 : 1;
+
+        // a > b = 1; a < b = -1; a === b = 0;
         switch (filter.Type) {
             case "nameContentSort": {
-                return mergeSort(rows, extractName, filter.InputValues[0])
+                rowsToLoad.sort((a, b) => direction * (a.Name > b.Name ? 1 : (a.Name < b.Name ? -1 : 0)));
             }
         }
-
-        return [];
-    }
-
-    function mergeSort(input: NameInfo[], extractVal: (r: NameInfo) => any, reverse: boolean): NameInfo[] {
-        if (input.length < 2) {
-            return input;
-        }
-
-        const left = input.splice(0, input.length / 2);
-        return merge(mergeSort(left, extractVal, reverse), mergeSort(input, extractVal, reverse), extractVal, reverse);
-    }
-
-    function merge(left: NameInfo[], right: NameInfo[], extractVal: (r: NameInfo) => any, reverse: boolean) {
-        const arr: NameInfo[] = [];
-
-        while (left.length && right.length) {
-            if ((!reverse && extractVal(left[0]) < extractVal(right[0])) 
-                || (reverse && extractVal(left[0]) > extractVal(right[0]))
-                || (extractVal(left[0]) === extractVal(right[0]))) {
-                const leftMost = left.shift();
-                if (leftMost)
-                    arr.push(leftMost);
-            } else {
-                const leftMost = right.shift();
-                if (leftMost)
-                    arr.push(leftMost);
-            }
-        }
-
-        return [...arr, ...left, ...right];
     }
 
     function maxRarity(rarities: RarityInfo[]) {
