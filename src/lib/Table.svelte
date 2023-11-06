@@ -31,7 +31,6 @@
     }
 
     function checkFilters(name: NameInfo, filters: PracticalFilterContent[]) {
-        let passesCheck: boolean = true;
         let orValues = {} as DictOfFilterTypes;
 
         for (const filter of filters) {
@@ -110,7 +109,7 @@
                 return false;
         }
 
-        return passesCheck;
+        return true;
     }
 
     function filtersInputsStringsToValues() {
