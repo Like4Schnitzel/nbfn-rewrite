@@ -41,7 +41,8 @@
             <option value="rarityAndFilter">Rarity</option>
         </optgroup>
         <optgroup label="Sorting">
-            <option value="nameSort">Name</option>
+            <option value="nameContentSort">Name Content</option>
+            <option value="nameLengthSort">Name Length</option>
             <option value="cvbSort">CVB Count</option>
             <option value="raritySort">Rarity</option>
         </optgroup>

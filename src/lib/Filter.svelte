@@ -159,6 +159,21 @@
                 {/each}
             </select>
         </div>
+    
+    {:else if filter.Type === "nameContentSort"}
+        <div class="filterInfoBtn">
+            <img src="info.png" alt="blue circle with white i character">
+            <span class="expandableInfo">
+                This will sort names alphabetically.
+            </span>
+        </div>
+        <div class="filterContent">
+            <p>Name Content Sort:</p>
+            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+                <option value="ascending">Ascending</option>
+                <option value="descending">Descending</option>
+            </select>
+        </div>
     {/if}
 </div>
 

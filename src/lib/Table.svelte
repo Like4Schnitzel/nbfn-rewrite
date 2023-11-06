@@ -9,12 +9,14 @@
 
     function loadTable()
     {
-        let usableFilters = filtersInputsStringsToValues();
-        const needFilterCheck = usableFilters.length > 0;
+        practicalFiltersInputs = [];
+        sortingInputs = [];
+        filtersInputsStringsToValues(); // fill up practicalFiltersInputs and sortingInputs
+        const needFilterCheck = practicalFiltersInputs.length > 0;
         rowsToLoad = [];
 
         for (const row of allRowsInJSON) {
-            if (!needFilterCheck || checkFilters(row, usableFilters)) {
+            if (!needFilterCheck || checkFilters(row, practicalFiltersInputs)) {
                 rowsToLoad.push(row);
             }
         }
@@ -172,8 +174,6 @@
     }
 
     function filtersInputsStringsToValues() {
-        let practicalFiltersInputs: PracticalFilterContent[] = [];
-
         for (let i = 0; i < $filtersInputs.length; i++) {
             const filter = $filtersInputs[i];
             practicalFiltersInputs.push({
@@ -213,7 +213,6 @@
                     break;
                 case "rarityFilter":
                 case "rarityAndFilter":
-                    console.log(filter.InputValues[1]);
                     if (filter.InputValues[1] !== null) {
                         practicalFiltersInputs[i].InputValues.push(
                             filter.InputValues[0],
@@ -221,10 +220,9 @@
                             filter.InputValues[2]
                         );
                     }
+                    break;
             }
         }
-
-        return practicalFiltersInputs;
     }
 
     function maxRarity(rarities: RarityInfo[]) {
@@ -304,6 +302,8 @@
     let allRowsInJSON: NameInfo[] = [];
     const startRows = 50;
     let jsonContents: { Names: any; Countries: string[]; };
+    let practicalFiltersInputs: PracticalFilterContent[];
+    let sortingInputs: PracticalFilterContent[];
 </script>
 
 <table>

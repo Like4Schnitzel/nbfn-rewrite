@@ -27,10 +27,11 @@ export type FilterType = "nameContentFilter" |
                          "genderFilter" |
                          "CVBFilter" |
                          "rarityFilter" |
-                        "nameLengthAndFilter" |
-                        "CVBAndFilter" |
-                        "rarityAndFilter" |
-                         "nameSort" |
+                         "nameLengthAndFilter" |
+                         "CVBAndFilter" |
+                         "rarityAndFilter" |
+                         "nameContentSort" |
+                         "nameLengthSort" |
                          "cvbSort" |
                          "raritySort";
 
