@@ -123,16 +123,25 @@
             </select>
         </div>
 
-    {:else if filter.Type === "rarityFilter"}
+    {:else if filter.Type === "rarityFilter" || filter.Type === "rarityAndFilter"}
         <div class="filterInfoBtn">
             <img src="info.png" alt="blue circle with white i character">
             <span class="expandableInfo">
-                This will only include entries where the rarity is
-                longer/shorter than/equal to the provided one.
+                {#if filter.Type === "rarityFilter"}
+                    This will only include entries where the rarity is
+                    longer/shorter than/equal to the provided one.
+                {:else}
+                    This will excluse all entries where the rarity is
+                    longer/shorter than/equal to the provided one.
+                {/if}
             </span>
         </div>
         <div class="filterContent">
-            <p>Rarity OR-Filter</p>
+            {#if filter.Type === "rarityFilter"}
+                <p>Rarity OR-Filter</p>
+            {:else}
+                <p>Rarity AND-Filter</p>
+            {/if}
             <select bind:value={filter.InputValues[0]} on:change={loadTable}>
                 <option value="<">&lt;</option>
                 <option value=">">&gt;</option>

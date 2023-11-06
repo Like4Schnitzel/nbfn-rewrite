@@ -35,10 +35,11 @@
 
         for (const filter of filters) {
             switch (filter.Type) {
-                case "nameContentFilter":
+                case "nameContentFilter": {
                     orValues[filter.Type] ||= filter.InputValues[0].test(name.Name);
                     break;
-                case "nameLengthFilter":
+                }
+                case "nameLengthFilter": {
                     if (filter.InputValues[1] !== null)
                     {
                         switch (filter.InputValues[0]) {
@@ -54,10 +55,12 @@
                         }
                     }
                     break;
-                case "genderFilter":
+                }
+                case "genderFilter": {
                     orValues[filter.Type] ||= name.Gender === filter.InputValues[0];
                     break;
-                case "CVBFilter":
+                }
+                case "CVBFilter": {
                     if (filter.InputValues[1] !== null)
                     {
                         switch (filter.InputValues[0]) {
@@ -73,7 +76,8 @@
                         }
                     }
                     break;
-                case "rarityFilter":
+                }
+                case "rarityFilter": {
                     const rarityNum = getRarityNum(name.Rarities, filter.InputValues[2]);
                     if (rarityNum === null) {
                         orValues[filter.Type] ||= false;
@@ -92,7 +96,8 @@
                         }
                     }
                     break;
-                case "nameLengthAndFilter":
+                }
+                case "nameLengthAndFilter": {
                     if (filter.InputValues[1] !== null)
                     {
                         switch (filter.InputValues[0]) {
@@ -111,7 +116,8 @@
                         }
                     }
                     break;
-                case "CVBAndFilter":
+                }
+                case "CVBAndFilter": {
                     if (filter.InputValues[1] !== null)
                     {
                         switch (filter.InputValues[0]) {
@@ -130,6 +136,30 @@
                         }
                     }
                     break;
+                }
+                case "rarityAndFilter": {
+                    const rarityNum = getRarityNum(name.Rarities, filter.InputValues[2]);
+                    if (rarityNum === null) {
+                        orValues[filter.Type] ||= false;
+                    }
+                    else {
+                        switch (filter.InputValues[0]) {
+                            case "<":
+                                if (!(rarityNum < filter.InputValues[1]))
+                                    return false;
+                                break;
+                            case ">":
+                                if (!(rarityNum > filter.InputValues[1]))
+                                    return false;
+                                break;
+                            case "=":
+                                if (!(rarityNum === filter.InputValues[1]))
+                                    return false;
+                                break;
+                        }
+                    }
+                    break;
+                }
             }
         }
 
@@ -182,6 +212,8 @@
                     );
                     break;
                 case "rarityFilter":
+                case "rarityAndFilter":
+                    console.log(filter.InputValues[1]);
                     if (filter.InputValues[1] !== null) {
                         practicalFiltersInputs[i].InputValues.push(
                             filter.InputValues[0],
