@@ -234,6 +234,31 @@
         }
     }
 
+    function mergeSort(input: Row[], toNumber: (r: Row) => number, reverse: boolean) {
+        if (input.length < 2) {
+            return input;
+        }
+
+        const left = input.splice(0, input.length / 2);
+        return merge(mergeSort(left, toNumber, reverse), mergeSort(input, toNumber, reverse), toNumber, reverse);
+    }
+
+    function merge(left: Row[], right: Row[], toNumber: (r: Row) => number, reverse: boolean) {
+        const arr = [];
+
+        while (left.length && right.length) {
+            if ((!reverse && toNumber(left[0]) < toNumber(right[0])) 
+                || (reverse && toNumber(left[0]) > toNumber(right[0]))
+                || (toNumber(left[0]) === toNumber(right[0]))) {
+                arr.push(left.shift());
+            } else {
+                arr.push(right.shift());
+            }
+        }
+
+        return [...arr, ...left, ...right];
+    }
+
     function maxRarity(rarities: RarityInfo[]) {
         let max = 0;
         for (const rarityInfo of rarities) {
