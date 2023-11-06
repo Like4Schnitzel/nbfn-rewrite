@@ -21,6 +21,11 @@
             }
         }
 
+        // go backwards because of priority stuff
+        for (let i = sortingInputs.length-1; i >= 0; i--) {
+            rowsToLoad = sortRows(rowsToLoad, sortingInputs[i])
+        }
+
         loadedRows = [];
         for (let i = 0; i < rowsToLoad.length && i < startRows; i++) {
             addRow();
@@ -227,32 +232,50 @@
                 case "nameContentSort":
                     sortingInputs.push({
                         Type: filter.Type,
-                        InputValues: [filter.InputValues[0] === "ascending"]
+                        InputValues: [filter.InputValues[0] === "descending"]
                     });
                     break;
             }
         }
     }
 
-    function mergeSort(input: Row[], toNumber: (r: Row) => number, reverse: boolean) {
+    function sortRows(rows: NameInfo[], filter: PracticalFilterContent) {
+        switch (filter.Type) {
+            case "nameContentSort": {
+                return mergeSort(rows, extractName, filter.InputValues[0])
+            }
+        }
+
+        return [];
+    }
+
+    function extractName(row: NameInfo) {
+        return row.Name;
+    }
+
+    function mergeSort(input: NameInfo[], extractVal: (r: NameInfo) => any, reverse: boolean): NameInfo[] {
         if (input.length < 2) {
             return input;
         }
 
         const left = input.splice(0, input.length / 2);
-        return merge(mergeSort(left, toNumber, reverse), mergeSort(input, toNumber, reverse), toNumber, reverse);
+        return merge(mergeSort(left, extractVal, reverse), mergeSort(input, extractVal, reverse), extractVal, reverse);
     }
 
-    function merge(left: Row[], right: Row[], toNumber: (r: Row) => number, reverse: boolean) {
-        const arr = [];
+    function merge(left: NameInfo[], right: NameInfo[], extractVal: (r: NameInfo) => any, reverse: boolean) {
+        const arr: NameInfo[] = [];
 
         while (left.length && right.length) {
-            if ((!reverse && toNumber(left[0]) < toNumber(right[0])) 
-                || (reverse && toNumber(left[0]) > toNumber(right[0]))
-                || (toNumber(left[0]) === toNumber(right[0]))) {
-                arr.push(left.shift());
+            if ((!reverse && extractVal(left[0]) < extractVal(right[0])) 
+                || (reverse && extractVal(left[0]) > extractVal(right[0]))
+                || (extractVal(left[0]) === extractVal(right[0]))) {
+                const leftMost = left.shift();
+                if (leftMost)
+                    arr.push(leftMost);
             } else {
-                arr.push(right.shift());
+                const leftMost = right.shift();
+                if (leftMost)
+                    arr.push(leftMost);
             }
         }
 
