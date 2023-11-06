@@ -39,32 +39,38 @@
                     orValues[filter.Type] ||= filter.InputValues[0].test(name.Name);
                     break;
                 case "nameLengthFilter":
-                    switch (filter.InputValues[0]) {
-                        case "<":
-                            orValues[filter.Type] ||= name.Name.length < filter.InputValues[1];
-                            break;
-                        case ">":
-                            orValues[filter.Type] ||= name.Name.length > filter.InputValues[1];
-                            break;
-                        case "=":
-                            orValues[filter.Type] ||= name.Name.length === filter.InputValues[1];
-                            break;
+                    if (filter.InputValues[1] !== null)
+                    {
+                        switch (filter.InputValues[0]) {
+                            case "<":
+                                orValues[filter.Type] ||= name.Name.length < filter.InputValues[1];
+                                break;
+                            case ">":
+                                orValues[filter.Type] ||= name.Name.length > filter.InputValues[1];
+                                break;
+                            case "=":
+                                orValues[filter.Type] ||= name.Name.length === filter.InputValues[1];
+                                break;
+                        }
                     }
                     break;
                 case "genderFilter":
                     orValues[filter.Type] ||= name.Gender === filter.InputValues[0];
                     break;
                 case "CVBFilter":
-                    switch (filter.InputValues[0]) {
-                        case "<":
-                            orValues[filter.Type] ||= name.CVBs < filter.InputValues[1];
-                            break;
-                        case ">":
-                            orValues[filter.Type] ||= name.CVBs > filter.InputValues[1];
-                            break;
-                        case "=":
-                            orValues[filter.Type] ||= name.CVBs === filter.InputValues[1];
-                            break;
+                    if (filter.InputValues[1] !== null)
+                    {
+                        switch (filter.InputValues[0]) {
+                            case "<":
+                                orValues[filter.Type] ||= name.CVBs < filter.InputValues[1];
+                                break;
+                            case ">":
+                                orValues[filter.Type] ||= name.CVBs > filter.InputValues[1];
+                                break;
+                            case "=":
+                                orValues[filter.Type] ||= name.CVBs === filter.InputValues[1];
+                                break;
+                        }
                     }
                     break;
                 case "rarityFilter":
@@ -87,35 +93,41 @@
                     }
                     break;
                 case "nameLengthAndFilter":
-                    switch (filter.InputValues[0]) {
-                        case "<":
-                            if(!(name.Name.length < filter.InputValues[1]))
-                                return false;
-                            break;
-                        case ">":
-                            if (!(name.Name.length > filter.InputValues[1]))
-                                return false;
-                            break;
-                        case "=":
-                            if (!(name.Name.length === filter.InputValues[1]))
-                                return false;
-                            break;
+                    if (filter.InputValues[1] !== null)
+                    {
+                        switch (filter.InputValues[0]) {
+                            case "<":
+                                if(!(name.Name.length < filter.InputValues[1]))
+                                    return false;
+                                break;
+                            case ">":
+                                if (!(name.Name.length > filter.InputValues[1]))
+                                    return false;
+                                break;
+                            case "=":
+                                if (!(name.Name.length === filter.InputValues[1]))
+                                    return false;
+                                break;
+                        }
                     }
                     break;
                 case "CVBAndFilter":
-                    switch (filter.InputValues[0]) {
-                        case "<":
-                            if (!(name.CVBs < filter.InputValues[1]))
-                                return false;
-                            break;
-                        case ">":
-                            if (!(name.CVBs > filter.InputValues[1]))
-                                return false;
-                            break;
-                        case "=":
-                            if (!(name.CVBs === filter.InputValues[1]))
-                                return false;
-                            break;
+                    if (filter.InputValues[1] !== null)
+                    {
+                        switch (filter.InputValues[0]) {
+                            case "<":
+                                if (!(name.CVBs < filter.InputValues[1]))
+                                    return false;
+                                break;
+                            case ">":
+                                if (!(name.CVBs > filter.InputValues[1]))
+                                    return false;
+                                break;
+                            case "=":
+                                if (!(name.CVBs === filter.InputValues[1]))
+                                    return false;
+                                break;
+                        }
                     }
                     break;
             }
