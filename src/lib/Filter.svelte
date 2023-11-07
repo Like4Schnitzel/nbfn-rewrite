@@ -2,6 +2,7 @@
     import type { FilterContent } from "$lib/types";
     import { countriesInJSON, filtersInputs } from "$lib/stores";
     import { target } from "$lib/index";
+    import { afterUpdate } from "svelte";
 
     export let filter: FilterContent;
     export let index: number;
@@ -37,9 +38,14 @@
             loadTable();
         }
     }
+
+    afterUpdate(() => {
+        updateSearchParams();
+        loadTable();
+    });
 </script>
 
-<div class="filter" on:change={updateSearchParams}>
+<div class="filter">
     <div class="btns">
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
