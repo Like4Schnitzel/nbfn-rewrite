@@ -339,11 +339,10 @@
     .defaultImg {
         display: block;
         position: absolute;
-        margin-left: auto;
-        margin-right: auto;
-        left: 0;
-        right: 0;
-        text-align: center;
+        margin-top: auto;
+        margin-bottom: auto;
+        top: 0;
+        bottom: 0;
     }
 
     .overlayImg {
@@ -357,12 +356,30 @@
     .btns {
         position: absolute;
         display: flex;
-        flex-direction: column;
-        height: 100%;
+        flex-direction: row-reverse;
         top: 0;
         right: 0;
         padding-right: 2px;
         gap: 2px;
+    }
+
+    @media (min-width: 1210px) {
+        .overlayImg,
+        .defaultImg {
+            margin-top: 0;
+            margin-bottom: 0;
+            top: auto;
+            bottom: auto;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        .btns {
+            flex-direction: column;
+        }
     }
 
     .filter {
