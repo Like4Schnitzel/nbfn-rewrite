@@ -107,12 +107,12 @@
             {:else}
                 <p>Name Length AND-Filter:</p>
             {/if}
-            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+            <select bind:value={filter.InputValues[0]}>
                 <option value="<">&lt;</option>
                 <option value=">">&gt;</option>
                 <option value="=">=</option>
             </select>
-            <input class="inputField numInput" type="number" min="0" bind:value={filter.InputValues[1]} on:input={loadTable}>
+            <input class="inputField numInput" type="number" min="0" bind:value={filter.InputValues[1]} />
         </div>
 
     {:else if filter.Type === "CVBFilter" || filter.Type === "CVBAndFilter"}
@@ -134,12 +134,12 @@
             {:else}
                 <p>CVB Count AND-Filter</p>
             {/if}
-            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+            <select bind:value={filter.InputValues[0]}>
                 <option value="<">&lt;</option>
                 <option value=">">&gt;</option>
                 <option value="=">=</option>
             </select>
-            <input class="inputField numInput" type="number" min="0" bind:value={filter.InputValues[1]} on:input={loadTable}>
+            <input class="inputField numInput" type="number" min="0" bind:value={filter.InputValues[1]} />
         </div>
 
     {:else if filter.Type === "genderFilter"}
@@ -152,7 +152,7 @@
         </div>
         <div class="filterContent">
             <p>Gender Filter</p>
-            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+            <select bind:value={filter.InputValues[0]}>
                 <option value="M">M</option>
                 <option value="1M">1M</option>
                 <option value="?M">?M</option>
@@ -182,17 +182,17 @@
             {:else}
                 <p>Rarity AND-Filter</p>
             {/if}
-            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+            <select bind:value={filter.InputValues[0]}>
                 <option value="<">&lt;</option>
                 <option value=">">&gt;</option>
                 <option value="=">=</option>
             </select>
             <div class="squishTogether">
-                <input class="inputField numInput" type="number" min="0" bind:value={filter.InputValues[1]} on:input={loadTable}>
+                <input class="inputField numInput" type="number" min="0" bind:value={filter.InputValues[1]} />
                 <p>%</p>
             </div>
             <p>in</p>
-            <select class="countrySelect" bind:value={filter.InputValues[2]} on:change={loadTable}>
+            <select class="countrySelect" bind:value={filter.InputValues[2]}>
                 <option value="highest" selected>highest</option>
                 {#each $countriesInJSON as country}
                     <option value={country}>{country}</option>
@@ -209,7 +209,7 @@
         </div>
         <div class="filterContent">
             <p>Name Content Sort:</p>
-            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+            <select bind:value={filter.InputValues[0]}>
                 <option value="ascending">Ascending</option>
                 <option value="descending">Descending</option>
             </select>
@@ -224,7 +224,7 @@
         </div>
         <div class="filterContent">
             <p>Name Length Sort:</p>
-            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+            <select bind:value={filter.InputValues[0]}>
                 <option value="ascending">Ascending</option>
                 <option value="descending">Descending</option>
             </select>
@@ -239,7 +239,7 @@
         </div>
         <div class="filterContent">
             <p>CVB Sort:</p>
-            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+            <select bind:value={filter.InputValues[0]}>
                 <option value="ascending">Ascending</option>
                 <option value="descending">Descending</option>
             </select>
@@ -254,12 +254,12 @@
         </div>
         <div class="filterContent">
             <p>Rarity Sort:</p>
-            <select bind:value={filter.InputValues[0]} on:change={loadTable}>
+            <select bind:value={filter.InputValues[0]}>
                 <option value="ascending">Ascending</option>
                 <option value="descending">Descending</option>
             </select>
             <p>in</p>
-            <select class="countrySelect" bind:value={filter.InputValues[1]} on:change={loadTable}>
+            <select class="countrySelect" bind:value={filter.InputValues[1]}>
                 <option value="highest" selected>highest</option>
                 {#each $countriesInJSON as country}
                     <option value={country}>{country}</option>
