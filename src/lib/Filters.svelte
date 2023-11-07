@@ -6,13 +6,16 @@
     let filterSelector: HTMLSelectElement;
 
     const addFilter = () => {
-        filtersInputs.add({
-            Type: filterSelector.value,
-            InputValues: []
-        });
+        if (filterSelector.value !== "std")
+        {
+            filtersInputs.add({
+                Type: filterSelector.value,
+                InputValues: []
+            });
 
-        filterSelector.value = "std";
-        updateSearchParams();
+            filterSelector.value = "std";
+            updateSearchParams();
+        }
     }
 
     const updateSearchParams = () => {
