@@ -40,12 +40,11 @@
     }
 
     afterUpdate(() => {
-        updateSearchParams();
         loadTable();
     });
 </script>
 
-<div class="filter">
+<div class="filter" on:change={updateSearchParams}>
     <div class="btns">
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
