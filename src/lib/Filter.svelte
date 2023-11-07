@@ -85,7 +85,7 @@
         </div>
         <div class="filterContent">
             <p>Name Filter:</p>
-            <input class="inputField" type="text" bind:value={filter.InputValues[0]} on:input={loadTable}>
+            <input class="inputField" type="text" bind:value={filter.InputValues[0]} placeholder="(case sensitive)">
         </div>
 
     {:else if filter.Type === "nameLengthFilter" || filter.Type === "nameLengthAndFilter"}
