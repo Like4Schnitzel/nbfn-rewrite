@@ -21,7 +21,16 @@
 
     onMount(() => {
         filtersInputs.set(JSON.parse($page.url.searchParams.get('filters') || "[]"));
-        displayedRarity.set(JSON.parse($page.url.searchParams.get('displayedRarity') || "highest"));
+        displayedRarity.set(JSON.parse($page.url.searchParams.get('displayedRarity') || "\"highest\""));
+
+        if ($filtersInputs.length === 0) {
+            filtersInputs.add({
+                Type: "nameContentFilter",
+                InputValues: []
+            });
+
+            updateSearchParams();
+        }
     });
 </script>
 
