@@ -18,7 +18,6 @@
     const deleteFilter = () => {
         filtersInputs.delete(index);
         updateSearchParams();
-        loadTable();
     }
 
     const moveFilterUp = () => {
@@ -26,7 +25,6 @@
         {
             filtersInputs.swap(index, index-1);
             updateSearchParams();
-            loadTable();
         }
     }
 
@@ -35,7 +33,6 @@
         {
             filtersInputs.swap(index, index+1);
             updateSearchParams();
-            loadTable();
         }
     }
 
