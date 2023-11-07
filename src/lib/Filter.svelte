@@ -21,40 +21,49 @@
     }
 
     const moveFilterUp = () => {
-        filtersInputs.swap(index, index-1);
+        if (index > 0)
+        {
+            filtersInputs.swap(index, index-1);
+            updateSearchParams();
+            loadTable();
+        }
     }
 
     const moveFilterDown = () => {
-        filtersInputs.swap(index, index+1);
+        if (index < $filtersInputs.length)
+        {
+            filtersInputs.swap(index, index+1);
+            updateSearchParams();
+            loadTable();
+        }
     }
 </script>
 
 <div class="filter" on:change={updateSearchParams}>
     <div class="btns">
         <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-        <div class="btn">
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div class="btn" on:click={deleteFilter}>
             <img class="defaultImg" src="trashcan.png" alt="trashcan">
             <img class="overlayImg" src="trashcan_red.png"
-                title="Remove Filter" on:click={deleteFilter} alt="red trashcan">
+                title="Remove Filter" alt="red trashcan">
         </div>
-        <div class="btn">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div class="btn" on:click={moveFilterUp}>
             {#if index > 0}
                 <img class="defaultImg" src="up_arrow.png" alt="upwards arrow">
-                <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
                 <img class="overlayImg" src="up_arrow_green.png"
-                    title="Move Filter up" on:click={moveFilterUp} alt="green upwards arrow">
+                    title="Move Filter up" alt="green upwards arrow">
             {/if}
         </div>
-        <div class="btn">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div class="btn" on:click={moveFilterDown}>
             {#if index < $filtersInputs.length-1}
                 <img class="defaultImg" src="down_arrow.png" alt="downwards arrow">
-                <!-- svelte-ignore a11y-click-events-have-key-events -->
-                <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
                 <img class="overlayImg" src="down_arrow_green.png"
-                    title="Move Filter down" on:click={moveFilterDown} alt="green downwards arrow">
+                    title="Move Filter down" alt="green downwards arrow">
             {/if}
         </div>
     </div>
