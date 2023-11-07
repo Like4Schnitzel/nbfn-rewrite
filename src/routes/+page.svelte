@@ -21,7 +21,7 @@
 
     onMount(() => {
         filtersInputs.set(JSON.parse($page.url.searchParams.get('filters') || "[]"));
-        displayedRarity.set(JSON.parse($page.url.searchParams.get('displayedRarity') || "highest"))
+        displayedRarity.set(JSON.parse($page.url.searchParams.get('displayedRarity') || "highest"));
     });
 </script>
 
