@@ -44,10 +44,12 @@
             </p>
             <h2>Filter Explanation<br></h2>
             <p>
-                Almost all filters work on an "and" based system, however the regular Name Content and Gender filters
-                work on an "or" based system, within their respective filter group. This means that, should you wish to
-                include for example both names that start with the letter A and ones that start with the letter B, you can
-                do so by creating multiple Name Content filters.<br>
+                There are OR-based filters and AND-based filters. What this means is that, should you have two filters of the same type
+                (i.e. Name Length), you can choose whether only one or all need to be true for a name to pass the check. Filters of different
+                types always operate on an AND-basis. Example: A1 and A2 are filters of the same type. B1 is a filter of a different type.
+                If A is an OR-based filter type, the check will be <b>(A1 || A2) && B1</b>. If it is an AND-based one, the check will be
+                <b>A1 && A2 && B1</b>.
+                <br>
                 You can change the priority of filters by clicking the up/down arrows on the right, below the trash bin icons.
                 This only has an effect for sorting filters. Should you, for example, give sorting by rarity a higher priority
                 than sorting by name, entries of the same rarity will be sorted by name. In actuality this means that the
