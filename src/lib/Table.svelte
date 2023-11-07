@@ -267,14 +267,17 @@
         switch (filter.Type) {
             case "nameContentSort": {
                 rowsToLoad.sort((a, b) => direction * comparisonToNumber(a.Name, b.Name));
+                break;
             }
 
             case "nameLengthSort": {
                 rowsToLoad.sort((a, b) => direction * comparisonToNumber(a.Name.length, b.Name.length));
+                break;
             }
 
             case "cvbSort": {
                 rowsToLoad.sort((a, b) => direction * comparisonToNumber(a.CVBs, b.CVBs));
+                break;
             }
 
             case "raritySort": {
@@ -282,6 +285,7 @@
                     getRarityNum(a.Rarities, filter.InputValues[1]),
                     getRarityNum(b.Rarities, filter.InputValues[1])
                 ));
+                break;
             }
         }
     }
