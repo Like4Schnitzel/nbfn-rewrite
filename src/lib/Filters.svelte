@@ -30,7 +30,7 @@
         {/each}
     </div>
     <select class="addFilter" bind:this={filterSelector} on:change={addFilter}>
-        <option value="std" selected>Add Filter</option>
+        <option value="std" selected disabled style="display: none;">Add Filter</option>
         <optgroup label="OR-Based Filters">
             <option value="nameContentFilter">Name Content</option>
             <option value="nameLengthFilter">Name Length</option>
