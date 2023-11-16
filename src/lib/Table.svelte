@@ -282,8 +282,8 @@
 
             case "raritySort": {
                 rowsToLoad.sort((a, b) => direction * comparisonToNumber(
-                    getRarityNum(a.Rarities, filter.InputValues[1]),
-                    getRarityNum(b.Rarities, filter.InputValues[1])
+                    getRarityNum(a.Rarities, filter.InputValues[1]) || 100*direction,
+                    getRarityNum(b.Rarities, filter.InputValues[1]) || 100*direction
                 ));
                 break;
             }
@@ -374,12 +374,11 @@
 <table>
     <thead>
         <tr>
-        <th class="nameColumn nameHeader">Name</th>
-        <th class="genderColumn">Gender</th>
-        <th class="cvbColumn">CVBs</th>
+        <th class="nameColumn nameHeader"><p>Name</p></th>
+        <th class="genderColumn"><p>Gender</p></th>
+        <th class="cvbColumn"><p>CVBs</p></th>
         <th class="rarityColumn rarityHeader">
-            <div id="raritySelection">
-            Rarity in
+            <p>Rarity in</p>
             <select
                 bind:value={$displayedRarity}
                 on:change={() => {loadRarities(); updateSearchParams()}}
@@ -390,7 +389,6 @@
                     <option value={country}>{country}</option>
                 {/each}
             </select>
-            </div>
         </th>
         </tr>
     </thead>
@@ -405,6 +403,10 @@
     .nameHeader {
         text-align: left;
         border-radius: var(--table-border-radius) 0px 0px 0px;
+    }
+
+    .nameHeader p {
+        width: 100%;
     }
   
     .rarityHeader {
@@ -448,6 +450,16 @@
         border-right: solid 1px black;
         border-left: solid 1px black;
         border-top: solid 1px black;
+        height: min-content;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    th p {
+        margin: 0;
+        display: inline-block;
     }
   
     tr {
