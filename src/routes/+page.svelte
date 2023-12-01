@@ -38,6 +38,11 @@
 </head>
 
 <body class="main">
+    <div class="sourceCodeLink">
+        <a href="https://github.com/Like4Schnitzel/nbfn-rewrite/" title="Source Code" target="_blank" >
+            <img src="https://github.githubassets.com/favicons/favicon-dark.svg" alt="GitHub Logo" />
+        </a>
+    </div>
     <div class="title">
         <img class="titleIcon" src="icon.png" loading="eager" alt="pixel art magnifying glass wearing nerd glasses">
         <h1 class="titleText">Name Browser for Nerds</h1>
@@ -61,6 +66,26 @@
         background-attachment: fixed;
         background-image: linear-gradient(#6c2f88, #4e2f73);
         font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .sourceCodeLink {
+        position: fixed;
+        bottom: 2vh;
+        left: 2vh;
+        height: 5vh;
+        width: 5vh;
+        border-radius: 50%;
+        background-color: black;
+    }
+
+    .sourceCodeLink a {
+        height: 100%;
+        width: 100%;
+    }
+
+    .sourceCodeLink a img {
+        height: 100%;
+        width: 100%;
     }
 
     .title {
