@@ -263,30 +263,17 @@
     
     function sortRows(filter: PracticalFilterContent) {
         const direction = filter.InputValues[0] ? -1 : 1;
+        const typeValPairs = {
+            nameContentSort: (x: NameInfo) => x.Name,
+            nameLengthSort: (x: NameInfo) => x.Name.length,
+            cvbSort: (x: NameInfo) => x.CVBs,
+            raritySort: (x: NameInfo) => getRarityNum(x.Rarities, filter.InputValues[1]) || 100*direction
+        }
 
-        switch (filter.Type) {
-            case "nameContentSort": {
-                rowsToLoad.sort((a, b) => direction * comparisonToNumber(a.Name, b.Name));
-                break;
-            }
-
-            case "nameLengthSort": {
-                rowsToLoad.sort((a, b) => direction * comparisonToNumber(a.Name.length, b.Name.length));
-                break;
-            }
-
-            case "cvbSort": {
-                rowsToLoad.sort((a, b) => direction * comparisonToNumber(a.CVBs, b.CVBs));
-                break;
-            }
-
-            case "raritySort": {
-                rowsToLoad.sort((a, b) => direction * comparisonToNumber(
-                    getRarityNum(a.Rarities, filter.InputValues[1]) || 100*direction,
-                    getRarityNum(b.Rarities, filter.InputValues[1]) || 100*direction
-                ));
-                break;
-            }
+        if (filter.Type in typeValPairs)
+        {
+            const valExtractionFunction = typeValPairs[filter.Type as keyof typeof typeValPairs];
+            rowsToLoad.sort((a, b) => direction * comparisonToNumber(valExtractionFunction(a), valExtractionFunction(b)));
         }
     }
 
