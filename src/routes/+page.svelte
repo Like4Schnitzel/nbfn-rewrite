@@ -40,7 +40,7 @@
 <body class="main">
     <div class="sourceCodeLink">
         <a href="https://github.com/Like4Schnitzel/nbfn-rewrite/" title="Source Code" target="_blank" >
-            <img src="https://github.githubassets.com/favicons/favicon-dark.svg" alt="GitHub Logo" />
+            <img src="github_icon.svg" alt="GitHub Logo" />
         </a>
     </div>
     <div class="title">
