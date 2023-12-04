@@ -17,6 +17,7 @@
 
     const deleteFilter = () => {
         filtersInputs.delete(index);
+        loadTable();
         updateSearchParams();
     }
 
