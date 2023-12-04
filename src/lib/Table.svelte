@@ -309,9 +309,9 @@
     }
 
     const loadRows = () => {
-        const toAdd = scrollableTable.scrollTop / 20 - (loadedRows.length - startRows);
+        const newLoadedRowsLength = scrollableTable.scrollTop / 20 + startRows;
 
-        for (let i = 0; i < rowsToLoad.length && i < toAdd; i++) {
+        for (let i = loadedRows.length; i < rowsToLoad.length && i < newLoadedRowsLength; i++) {
             addRow();
         }
     }
