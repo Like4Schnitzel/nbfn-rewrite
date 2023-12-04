@@ -50,6 +50,16 @@ function createDisplayedRarity() {
     }
 }
 
+function createLoadedNamesCount() {
+    const { subscribe, set, update } = writable<number>();
+
+    return {
+        subscribe,
+        set: (n: number) => update(() => { return n })
+    }
+}
+
 export const filtersInputs = createFiltersList();
 export const countriesInJSON = createCountriesList();
 export const displayedRarity = createDisplayedRarity();
+export const loadedNamesCount = createLoadedNamesCount();

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { target } from "$lib/index";
-    import { filtersInputs } from "$lib/stores";
+    import { filtersInputs, loadedNamesCount } from "$lib/stores";
     import Filter from "./Filter.svelte";
 
     let filterSelector: HTMLSelectElement;
@@ -24,6 +24,9 @@
 </script>
 
 <div class="filtersColumn">
+    <div class="loadedNamesCount">
+        <p>Loaded names: {$loadedNamesCount}</p>
+    </div>
     <div class="filters">
         {#each $filtersInputs as filter, i}
             <Filter filter={filter} index={i}/>
@@ -65,6 +68,25 @@
         margin-right: auto;
         width: fit-content;
         padding: 1%;
+    }
+
+    .loadedNamesCount {
+        width: fit-content;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: rgb(110, 37, 219);
+        border-radius: 10px;
+        border: solid 1px black;
+        margin-bottom: 3%;
+        padding-left: 2%;
+        padding-right: 2%;
+        color: antiquewhite;
+    }
+
+    .loadedNamesCount p {
+        margin-top: 10%;
+        margin-bottom: 10%;
     }
 
     @media (min-width: 1210px) {

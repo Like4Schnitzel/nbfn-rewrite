@@ -2,7 +2,7 @@
     import type { NameInfo, DictOfFilterTypes, PracticalFilterContent, RarityInfo } from '$lib/types';
     import { onMount } from 'svelte';
     import { target } from '$lib/index';
-    import { filtersInputs, countriesInJSON, displayedRarity } from '$lib/stores';
+    import { filtersInputs, countriesInJSON, displayedRarity, loadedNamesCount } from '$lib/stores';
     import Row from './Row.svelte';
 
     target.addEventListener('loadTable', () => {loadTable()});
@@ -20,6 +20,8 @@
                 rowsToLoad.push(row);
             }
         }
+
+        loadedNamesCount.set(rowsToLoad.length);
 
         // go backwards because of priority stuff
         for (let i = sortingInputs.length-1; i >= 0; i--) {
