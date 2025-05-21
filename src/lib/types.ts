@@ -3,6 +3,11 @@ export type FilterContent = {
     InputValues: string[]
 }
 
+export type MinimalFilterContent = {
+    t: MinimalFilterType,
+    v: string[]
+}
+
 export type PracticalFilterContent = {
     Type: FilterType,
     InputValues: any[]
@@ -34,5 +39,18 @@ export type FilterType = "nameContentFilter" |
                          "nameLengthSort" |
                          "cvbSort" |
                          "raritySort";
+
+export type MinimalFilterType = "ncf" |
+                                "nlf" |
+                                "gf" |
+                                "cvbf" |
+                                "rf" |
+                                "nla" |
+                                "cvba" |
+                                "ra" |
+                                "ncs" |
+                                "nls" |
+                                "cvbs" |
+                                "rs";
 
 export type DictOfFilterTypes = Record<FilterType, boolean>;

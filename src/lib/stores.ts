@@ -23,6 +23,9 @@ function createFiltersList() {
             fc[index1] = fc[index2];
             fc[index2] = temp;
             return fc;
+        }),
+        map: (callback: () => FilterContent) => update((fc) => {
+            return fc.map(callback);
         })
     }
 }

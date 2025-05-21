@@ -1,16 +1,17 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { filtersInputs, displayedRarity } from '$lib/stores';
-    import { target } from '$lib/index';
+    import { maximizeFilterContent, minimizeFilterContent, target } from '$lib/index';
     import About from '$lib/About.svelte';
     import Table from '$lib/Table.svelte';
     import Filters from '$lib/Filters.svelte';
     import { onMount } from 'svelte';
     import { page } from '$app/stores';
+    import type { MinimalFilterContent } from '$lib/types';
 
     const searchParams = new URLSearchParams();
     const updateSearchParams = () => {
-        searchParams.set("filters", JSON.stringify($filtersInputs));
+        searchParams.set("f", JSON.stringify($filtersInputs.map(f => minimizeFilterContent(f))));
         searchParams.set("displayedRarity", JSON.stringify($displayedRarity));
         goto(`?${searchParams.toString()}`);
     }
@@ -20,8 +21,16 @@
     });
 
     onMount(() => {
-        filtersInputs.set(JSON.parse($page.url.searchParams.get('filters') || "[{\"Type\":\"nameContentFilter\",\"InputValues\":[]}]"));
-        displayedRarity.set(JSON.parse($page.url.searchParams.get('displayedRarity') || "\"highest\""));
+        // check if filters searchParams are maximized (old style)
+        const oldFiltersParams = $page.url.searchParams.get('filters');
+        if (oldFiltersParams !== null) {
+            const oldFilters = JSON.parse(oldFiltersParams);
+            filtersInputs.set(oldFilters);
+            updateSearchParams();
+        } else {
+            filtersInputs.set((JSON.parse($page.url.searchParams.get('f') || "[{\"t\":\"ncf\",\"v\":[]}]") as MinimalFilterContent[]).map(f => maximizeFilterContent(f)));
+            displayedRarity.set(JSON.parse($page.url.searchParams.get('displayedRarity') || "\"highest\""));
+        }
 
         updateSearchParams();
     });
